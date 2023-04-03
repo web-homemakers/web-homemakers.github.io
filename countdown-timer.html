@@ -1,0 +1,209 @@
+<style>
+  body {
+    background-color: #003c4c;
+  }
+
+  .banner-sale-ended {
+    color: #003c4c;
+    font-family: Roboto;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #nh-banner-countdown-timer-desktop {
+    display: none;
+  }
+
+  #nh-banner-countdown-timer-mobile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .nh-banner-countdown-block-days-mobile {
+    color: #ffffff;
+    font-family: Roboto;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 6px;
+  }
+
+  .nh-banner-countdown-block-hours-mobile {
+    color: #ffffff;
+    font-family: Roboto;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 6px;
+  }
+
+  .nh-banner-countdown-block-minutes-mobile {
+    color: #ffffff;
+    font-family: Roboto;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 6px;
+  }
+
+  .nh-banner-countdown-block-seconds-mobile {
+    color: #ffffff;
+    font-family: Roboto;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 6px;
+  }
+
+  .nh-banner-countdown-block-days-desktop {
+    color: #ffffff;
+    font-family: Roboto;
+    font-size: 34px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 6px;
+  }
+
+  .nh-banner-countdown-block-hours-desktop {
+    color: #ffffff;
+    font-family: Roboto;
+    font-size: 34px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 6px;
+  }
+
+  .nh-banner-countdown-block-minutes-desktop {
+    color: #ffffff;
+    font-family: Roboto;
+    font-size: 34px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 6px;
+  }
+
+  .nh-banner-countdown-block-seconds-desktop {
+    color: #ffffff;
+    font-family: Roboto;
+    font-size: 34px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 6px;
+  }
+
+  @media screen and (min-width: 768px) {
+
+    #nh-banner-countdown-timer-desktop {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      
+    }
+
+    #nh-banner-countdown-timer-mobile {
+      display: none;
+    }
+  }
+
+</style>
+
+<div id="nh-banner-countdown-timer-mobile">
+  <div class="nh-banner-countdown-block-days-mobile" id="countdown-banner-days-mobile"></div>
+  <div class="nh-banner-countdown-block-hours-mobile" id="countdown-banner-hours-mobile"></div>
+  <div class="nh-banner-countdown-block-minutes-mobile" id="countdown-banner-minutes-mobile"></div>
+  <div class="nh-banner-countdown-block-seconds-mobile" id="countdown-banner-seconds-mobile"></div>
+</div>
+
+<div id="nh-banner-countdown-timer-desktop">
+  <div class="nh-banner-countdown-block-days-desktop" id="countdown-banner-days-desktop"></div>
+  <div class="nh-banner-countdown-block-hours-desktop" id="countdown-banner-hours-desktop"></div>
+  <div class="nh-banner-countdown-block-minutes-desktop" id="countdown-banner-minutes-desktop"></div>
+  <div class="nh-banner-countdown-block-seconds-desktop" id="countdown-banner-seconds-desktop"></div>
+</div>
+
+<!-- ADD https://momentjs.com/downloads/moment-timezone-with-data.js FOR DAYLIGHT SAVINGS ADJUSTMENT -->
+<!-- ADD https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.31/moment-timezone-with-data-2012-2022.min.js FOR REGULAR TIME IF momemtjs adjustment doesn't recalculate -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+<script src="https://momentjs.com/downloads/moment-timezone-with-data.js"></script>
+<script>
+  // Set your target date and timezone
+  // Additionally to the above comments regarding libraries, use EITHER var currentDate = moment().utcOffset("America/Chicago"); OR var currentDate = moment().tz("America/Chicago");
+  var targetDate = moment.tz("2023-04-13T23:59:59", "America/Chicago");
+  var currentDate = moment().tz("America/Chicago");
+
+  // Update the countdown every 1 second
+  var countdown = setInterval(function() {
+
+    // Find the distance between now and the target date
+    var distance = targetDate.diff(currentDate);
+
+    // Time calculations for days, hours, minutes, and seconds
+    var days = moment.duration(distance).days();
+    var hours = moment.duration(distance).hours();
+    var minutes = moment.duration(distance).minutes();
+    var seconds = moment.duration(distance).seconds();
+
+    // Display the result in the appropriate div elements
+    if (days === 1) {
+      document.getElementById("countdown-banner-days-mobile").innerHTML = days + " Day";
+      document.getElementById("countdown-banner-days-desktop").innerHTML = days + " Day";
+    } else {
+      document.getElementById("countdown-banner-days-mobile").innerHTML = days + " Days";
+      document.getElementById("countdown-banner-days-desktop").innerHTML = days + " Days";
+    }
+    if (hours === 1) {
+      document.getElementById("countdown-banner-hours-mobile").innerHTML = (hours < 10 ? "0" : "") + hours + " Hour";
+      document.getElementById("countdown-banner-hours-desktop").innerHTML = (hours < 10 ? "0" : "") + hours + " Hour";
+    } else {
+      document.getElementById("countdown-banner-hours-mobile").innerHTML = (hours < 10 ? "0" : "") + hours + " Hours";
+      document.getElementById("countdown-banner-hours-desktop").innerHTML = (hours < 10 ? "0" : "") + hours + " Hours";
+    }
+    if (minutes === 1) {
+      document.getElementById("countdown-banner-minutes-mobile").innerHTML = (minutes < 10 ? "0" : "") + minutes + " Minute";
+      document.getElementById("countdown-banner-minutes-desktop").innerHTML = (minutes < 10 ? "0" : "") + minutes + " Minute";
+    } else {
+      document.getElementById("countdown-banner-minutes-mobile").innerHTML = (minutes < 10 ? "0" : "") + minutes + " Minutes";
+      document.getElementById("countdown-banner-minutes-desktop").innerHTML = (minutes < 10 ? "0" : "") + minutes + " Minutes";
+    }
+    if (seconds === 1) {
+      document.getElementById("countdown-banner-seconds-mobile").innerHTML = (seconds < 10 ? "0" : "") + seconds + " Second";
+      document.getElementById("countdown-banner-seconds-desktop").innerHTML = (seconds < 10 ? "0" : "") + seconds + " Second";
+    } else {
+      document.getElementById("countdown-banner-seconds-mobile").innerHTML = (seconds < 10 ? "0" : "") + seconds + " Seconds";
+      document.getElementById("countdown-banner-seconds-desktop").innerHTML = (seconds < 10 ? "0" : "") + seconds + " Seconds";
+    }
+
+    // If the count down is finished, write some text
+    if (distance < 0) {
+      clearInterval(countdown);
+      document.getElementById("nh-banner-countdown-timer-desktop").innerHTML = "SALE ENDED";
+      document.getElementById("nh-banner-countdown-timer-mobile").innerHTML = "SALE ENDED";
+      document.getElementById("nh-banner-countdown-timer-desktop").classList.add("sale-ended");
+      document.getElementById("nh-banner-countdown-timer-mobile").classList.add("sale-ended");
+    }
+    // update current date
+    currentDate = moment().tz("America/Chicago");
+  }, 1000);
+
+</script>
