@@ -172,13 +172,6 @@
     var seconds = moment.duration(distance).seconds();
 
     // Display the result in the appropriate div elements
-    if (days === 1) {
-      document.getElementById("countdown-banner-days-mobile").innerHTML = days + " Day";
-      document.getElementById("countdown-banner-days-desktop").innerHTML = days + " Day";
-    } else {
-      document.getElementById("countdown-banner-days-mobile").innerHTML = days + " Days";
-      document.getElementById("countdown-banner-days-desktop").innerHTML = days + " Days";
-    }
     if (hours === 1) {
       document.getElementById("countdown-banner-hours-mobile").innerHTML = (hours < 10 ? "0" : "") + hours + " Hour";
       document.getElementById("countdown-banner-hours-desktop").innerHTML = (hours < 10 ? "0" : "") + hours + " Hour";
