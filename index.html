@@ -1,138 +1,182 @@
 <!DOCTYPE html>
 <html>
-
-<style>
-  .banner-sale-ended {
-    color: #003c4c;
-    font-family: Roboto;
-    font-size: 20px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  #nh-banner-countdown-timer-desktop {
-    display: none;
-  }
-
-  #nh-banner-countdown-timer-mobile {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .nh-banner-countdown-block-days-mobile {
-    color: #ffffff;
-    font-family: Roboto;
-    font-size: 16px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 4px;
-    margin-right: 4px;
-  }
-
-  .nh-banner-countdown-block-hours-mobile {
-    color: #ffffff;
-    font-family: Roboto;
-    font-size: 16px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 4px;
-    margin-right: 4px;
-  }
-
-  .nh-banner-countdown-block-minutes-mobile {
-    color: #ffffff;
-    font-family: Roboto;
-    font-size: 16px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 4px;
-    margin-right: 4px;
-  }
-
-  .nh-banner-countdown-block-seconds-mobile {
-    color: #ffffff;
-    font-family: Roboto;
-    font-size: 16px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 4px;
-    margin-right: 4px;
-  }
-
-  .nh-banner-countdown-block-days-desktop {
-    color: #ffffff;
-    font-family: Roboto;
-    font-size: 34px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 16px;
-    margin-right: 16px;
-  }
-
-  .nh-banner-countdown-block-hours-desktop {
-    color: #ffffff;
-    font-family: Roboto;
-    font-size: 34px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 16px;
-    margin-right: 16px;
-  }
-
-  .nh-banner-countdown-block-minutes-desktop {
-    color: #ffffff;
-    font-family: Roboto;
-    font-size: 34px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 16px;
-    margin-right: 16px;
-  }
-
-  .nh-banner-countdown-block-seconds-desktop {
-    color: #ffffff;
-    font-family: Roboto;
-    font-size: 34px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 16px;
-    margin-right: 16px;
-  }
-
-  @media screen and (min-width: 768px) {
-
-    #nh-banner-countdown-timer-desktop {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      
-    }
-
-    #nh-banner-countdown-timer-mobile {
-      display: none;
-    }
-  }
-
-</style>
+  <head>
+    <!-- GA tracking code -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=107715236"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+  
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', '107715236');
+  
+    </script>
+  
+    <style type="text/css">
+      .nh-grow-effect {
+        transition: all 0.4s ease-in-out;
+      }
+  
+      .nh-grow-effect:hover {
+        transform: scale(1.01);
+        transform: translateY(-2px);
+      }
+  
+      /* Tile Section */
+      .nh-5-up-tile-section {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+  
+      .nh-5-up-tile {
+        display: inline-grid;
+        width: 100%;
+        height: auto;
+        margin: 10px 10px 10px 10px;
+        background-color: #f7f7f7;
+        border: 0px solid #f7f7f7;
+        border-radius: 14px;
+        font-size: 16px;
+        text-align: center;
+        color: #232323;
+      }
+  
+      .nh-5-up-tile:hover {
+        box-shadow: 0px 2px 5px #b1b1b1;
+        color: #e51529;
+        background-color: #fafafa;
+        border: 0px solid #fafafa;
+        cursor: pointer;
+      }
+  
+      /* Separate tile created to support irregular tile type  */
+      .nh-5-up-tile-sale {
+        display: inline-grid;
+        width: 100%;
+        height: auto;
+        margin: 10px 10px 10px 10px;
+        background-color: #b32017;
+        border: 0px solid #dedede;
+        border-radius: 14px;
+        outline: 1px solid #ffffff;
+        outline-offset: -20px;
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+      }
+  
+      .nh-5-up-tile-sale:hover {
+        box-shadow: 0px 2px 6px #b1b1b1;
+        color: #ffffff;
+        background-color: #ca241a;
+        outline-offset: -20px;
+        cursor: pointer;
+      }
+  
+      /* Created for spacing between tiles */
+      .nh-5-up-tile-div {
+        display: flex;
+        flex-wrap: wrap;
+        width: 50%;
+        margin: 0;
+        padding: 0;
+      }
+  
+      .nh-5-up-tile-image {
+        object-fit: contain;
+        width: 110%;
+        height: 110%;
+        padding: 10px 10px 0 10px;
+      }
+  
+      /* Tile Link Section */
+      .nh-5-up-tile-a-link {
+        padding-bottom: 70px;
+      }
+  
+      .nh-5-up-tile-a-link:hover {
+        cursor: pointer;
+      }
+  
+      .nh-5-up-tile-a-link-sale {
+        align-items: center;
+        justify-content: center;
+      }
+  
+      .nh-5-up-tile-a-link-sale:link {
+        color: #ffffff;
+        text-decoration: none;
+      }
+  
+      .nh-5-up-tile-a-link-sale:hover {
+        color: #ffffff;
+        cursor: pointer;
+      }
+  
+      /* Mobile-first approach, this adjusts the content for 768px or larger such as desktop */
+      @media screen and (min-width: 768px) {
+  
+        .nh-5-up-tile-section {
+          max-width: 100%;
+          margin: 0;
+          padding: 0;
+        }
+  
+        .nh-5-up-tile-div {
+          display: flex;
+          flex-wrap: wrap;
+          width: 20%;
+          margin: 0;
+          padding: 0;
+        }
+  
+        .nh-5-up-tile {
+          width: 100%;
+          height: auto;
+          font-size: 20px;
+          margin: 10px 10px 10px 10px;
+        }
+  
+        .nh-5-up-tile-image {
+          object-fit: contain;
+          width: 100%;
+          height: 100%;
+          padding: 20px 10px 0 10px;
+        }
+  
+        .nh-5-up-tile-sale {
+          width: 100%;
+          height: auto;
+          margin: 10px 10px 10px 10px;
+          font-size: 26px;
+          outline: 1px solid #ffffff;
+          outline-offset: -24px;
+        }
+  
+        .nh-5-up-tile-a-link {
+          padding-bottom: 60px;
+        }
+      }
+  
+      /* Increase text size of sale content for 1376px or larger */
+      @media screen and (min-width: 1376px) {
+        .nh-5-up-tile-sale {
+          font-size: 34px;
+        }
+  
+      }
+  
+    </style>
+  </head>
 
 <div id="nh-banner-countdown-timer-mobile">
   <div class="nh-banner-countdown-block-days-mobile" id="countdown-banner-days-mobile"></div>
