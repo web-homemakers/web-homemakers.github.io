@@ -13,7 +13,7 @@
     font-family: Roboto;
     font-size: 40px;
     font-weight: bold;
-    display: flex;
+    display: block;
     text-align: center;
     justify-content: center;
     align-items: center;
@@ -56,31 +56,32 @@
     display: flex;
   }
 
-@media screen and (max-width: 767px) {
-  .banner-sale-ended {
-    font-size: 26px;
+  @media screen and (max-width: 767px) {
+    .banner-sale-ended {
+      font-size: 26px;
+    }
+
+    .hm-countdown-block {
+      font-size: 26px;
+    }
+
+    .hm-countdown-banner-block-hours {
+      font-size: 26px;
+    }
+
+    .hm-countdown-banner-block-minutes {
+      font-size: 26px;
+
+    }
+
+    .hm-countdown-banner-block-seconds {
+      font-size: 26px;
+    }
   }
 
-  .hm-countdown-block {
-    font-size: 26px;
-  }
-
-  .hm-countdown-banner-block-hours {
-    font-size: 26px;
-  }
-
-  .hm-countdown-banner-block-minutes {
-    font-size: 26px;
-  
-  }
-
-  .hm-countdown-banner-block-seconds {
-    font-size: 26px;
-  }
-}
 </style>
 
-<span class="hm-countdown-block">HURRY! SAVE THE TAX ENDS IN&nbsp;
+<span class="hm-countdown-block">HURRY! SAVE THE TAX<br>ENDS IN&nbsp;
   <div id="hm-countdown-banner-timer">
     <div class="hm-countdown-banner-block-hours" id="promo-countdown-banner-hours"></div>
     <div class="hm-countdown-banner-block-minutes" id="promo-countdown-banner-minutes"></div>
