@@ -1,342 +1,106 @@
-<head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-67016383-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+<style>
+  .banner-banner-sale-ended {
+    color: #ffffff;
+    font-family: Roboto;
+    font-size: 45px;
+    font-weight: bold;
+    display: flex;
+  }
 
-    gtag('config', 'UA-67016383-1');
-  </script>
+  #hm-countdown-banner-timer {
+    display: inline-flex;
+  }
 
-  <style type="text/css">
-    .nh-grow-effect {
-      transition: all 0.4s ease-in-out;
-    }
+  .hm-countdown-banner-block-days {
+    color: #ffffff;
+    font-family: Roboto;
+    font-size: 45px;
+    font-weight: bold;
+    display: flex;
+  }
 
-    .nh-grow-effect:hover {
-      transform: scale(1.01);
-      transform: translateY(-2px);
-    }
+  .hm-countdown-banner-block-hours {
+    color: #ffffff;
+    font-family: Roboto;
+    font-size: 45px;
+    font-weight: bold;
+    display: flex;
+  }
 
-    /* Tile Section */
-    .nh-5-up-tile-section {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      max-width: 100%;
-      margin: 0;
-      padding: 0;
-    }
+  .hm-countdown-banner-block-minutes {
+    color: #ffffff;
+    font-family: Roboto;
+    font-size: 45px;
+    font-weight: bold;
+    display: flex;
+  }
 
-    .nh-5-up-tile {
-      display: inline-grid;
-      width: 100%;
-      height: auto;
-      margin: 10px 10px 10px 10px;
-      background-color: #f7f7f7;
-      border: 0px solid #f7f7f7;
-      border-radius: 14px;
-      font-size: 16px;
-      text-align: center;
-      color: #232323;
-    }
+  .hm-countdown-banner-block-seconds {
+    color: #ffffff;
+    font-family: Roboto;
+    font-size: 45px;
+    font-weight: bold;
+    display: flex;
+  }
 
-    .nh-5-up-tile:hover {
-      box-shadow: 0px 2px 5px #b1b1b1;
-      color: #e51529;
-      background-color: #fafafa;
-      border: 0px solid #fafafa;
-      cursor: pointer;
-    }
+</style>
 
-    /* Separate tile created to support irregular tile type  */
-    .nh-5-up-tile-sale {
-      display: inline-grid;
-      width: 100%;
-      height: auto;
-      margin: 10px 10px 10px 10px;
-      background-color: #b32017;
-      border: 0px solid #dedede;
-      border-radius: 14px;
-      outline: 1px solid #ffffff;
-      outline-offset: -20px;
-      font-size: 24px;
-      font-weight: bold;
-      text-align: center;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
-    }
+<a class="b-header_link" href="$url('search-show','cgid','sale-name')$">
+  <span class="b-header_link-text" style=" font-family: Roboto; font-size: 45px; font-weight: bold;">HURRY! SAVE THE TAX ENDS IN
+    <div id="hm-countdown-banner-timer">
+      <div class="hm-countdown-banner-block-hours" id="promo-countdown-banner-hours"></div>
+      <div class="hm-countdown-banner-block-minutes" id="promo-countdown-banner-minutes"></div>
+      <div class="hm-countdown-banner-block-seconds" id="promo-countdown-banner-seconds"></div>
+    </div>
+  </span>
+</a>
 
-    .nh-5-up-tile-sale:hover {
-      box-shadow: 0px 2px 6px #b1b1b1;
-      color: #ffffff;
-      background-color: #ca241a;
-      outline-offset: -20px;
-      cursor: pointer;
-    }
-
-    /* Created for spacing between tiles */
-    .nh-5-up-tile-div {
-      display: flex;
-      flex-wrap: wrap;
-      width: 50%;
-      margin: 0;
-      padding: 0;
-    }
-
-    .nh-5-up-tile-image {
-      object-fit: contain;
-      width: 110%;
-      height: 110%;
-      padding: 10px 10px 0 10px;
-    }
-
-    /* Tile Link Section */
-    .nh-5-up-tile-a-link {
-      padding-bottom: 70px;
-    }
-
-    .nh-5-up-tile-a-link:hover {
-      cursor: pointer;
-    }
-
-    .nh-5-up-tile-a-link-sale {
-      align-items: center;
-      justify-content: center;
-    }
-
-    .nh-5-up-tile-a-link-sale:link {
-      color: #ffffff;
-      text-decoration: none;
-    }
-
-    .nh-5-up-tile-a-link-sale:hover {
-      color: #ffffff;
-      cursor: pointer;
-    }
-
-    /* Mobile-first approach, this adjusts the content for 768px or larger such as desktop */
-    @media screen and (min-width: 768px) {
-
-      .nh-5-up-tile-section {
-        max-width: 100%;
-        margin: 0;
-        padding: 0;
-      }
-
-      .nh-5-up-tile-div {
-        display: flex;
-        flex-wrap: wrap;
-        width: 20%;
-        margin: 0;
-        padding: 0;
-      }
-
-      .nh-5-up-tile {
-        width: 100%;
-        height: auto;
-        font-size: 20px;
-        margin: 10px 10px 10px 10px;
-      }
-
-      .nh-5-up-tile-image {
-        object-fit: contain;
-        width: 100%;
-        height: 100%;
-        padding: 20px 10px 0 10px;
-      }
-
-      .nh-5-up-tile-sale {
-        width: 100%;
-        height: auto;
-        margin: 10px 10px 10px 10px;
-        font-size: 26px;
-        outline: 1px solid #ffffff;
-        outline-offset: -24px;
-      }
-
-      .nh-5-up-tile-a-link {
-        padding-bottom: 60px;
-      }
-    }
-
-    /* Increase text size of sale content for 1376px or larger */
-    @media screen and (min-width: 1376px) {
-      .nh-5-up-tile-sale {
-        font-size: 34px;
-      }
-
-    }
-
-  </style>
-</head>
-
-<div class="nh-5-up-tile-section">
-  <div class="nh-5-up-tile-div">
-    <a onclick="gtag('event', 'click', {'event_category': 'manualcodeCategory', 'event_label': 'homepage-evergreen-tile-shop-by-department-sale'})" class="nh-5-up-tile-sale nh-grow-effect" href="https://www.homemakers.com/sales-and-deals/">
-      <span class="nh-5-up-tile-a-link-sale">SALE</span></a>
-  </div>
-
-  <div class="nh-5-up-tile-div">
-    <span class="nh-5-up-tile nh-grow-effect" id="nh-living-room">
-      <a onclick="gtag('event', 'click', {'event_category': 'manualcodeCategory', 'event_label': 'homepage-evergreen-tile-shop-by-department-living-room'})" class="nh-5-up-tile-a-link" href="https://www.homemakers.com/shop/living-room/" target="_self">
-        <img alt="Living Room" class="nh-5-up-tile-image" />
-        Living Room</a>
-    </span>
-  </div>
-
-  <div class="nh-5-up-tile-div">
-    <span class="nh-5-up-tile nh-grow-effect" id="nh-dining-room">
-      <a onclick="gtag('event', 'click', {'event_category': 'manualcodeCategory', 'event_label': 'homepage-evergreen-tile-shop-by-department-dining-room'})" class="nh-5-up-tile-a-link" href="https://www.homemakers.com/shop/kitchen-and-dining-room/" target="_self">
-        <img alt="Kitchen and Dining Room" class="nh-5-up-tile-image" />
-        Dining Room</a>
-    </span>
-  </div>
-
-  <div class="nh-5-up-tile-div">
-    <span class="nh-5-up-tile nh-grow-effect" id="nh-bedroom">
-      <a onclick="gtag('event', 'click', {'event_category': 'manualcodeCategory', 'event_label': 'homepage-evergreen-tile-shop-by-department-bedroom'})" class="nh-5-up-tile-a-link" href="https://www.homemakers.com/shop/bedroom/" target="_self">
-        <img alt="Bedroom" class="nh-5-up-tile-image" />
-        Bedroom</a>
-    </span>
-  </div>
-
-  <div class="nh-5-up-tile-div">
-    <span class="nh-5-up-tile nh-grow-effect" id="nh-mattresses">
-      <a onclick="gtag('event', 'click', {'event_category': 'manualcodeCategory', 'event_label': 'homepage-evergreen-tile-shop-by-department-mattresses'})" class="nh-5-up-tile-a-link" href="https://www.homemakers.com/shop/mattresses/" target="_self">
-        <img alt="Mattresses" class="nh-5-up-tile-image" />
-        Mattresses</a>
-    </span>
-  </div>
-
-  <div class="nh-5-up-tile-div">
-    <span class="nh-5-up-tile nh-grow-effect" id="nh-home-office">
-      <a onclick="gtag('event', 'click', {'event_category': 'manualcodeCategory', 'event_label': 'homepage-evergreen-tile-shop-by-department-home-office'})" class="nh-5-up-tile-a-link" href="https://www.homemakers.com/shop/home-office/" target="_self">
-        <img alt="Home Office" class="nh-5-up-tile-image" />
-        Home Office</a>
-    </span>
-  </div>
-
-  <div class="nh-5-up-tile-div">
-    <span class="nh-5-up-tile nh-grow-effect" id="nh-outdoor">
-      <a onclick="gtag('event', 'click', {'event_category': 'manualcodeCategory', 'event_label': 'homepage-evergreen-tile-shop-by-department-outdoor'})" class="nh-5-up-tile-a-link" href="https://www.homemakers.com/shop/outdoor/" target="_self">
-        <img alt="Outdoor" class="nh-5-up-tile-image" />
-        Outdoor</a>
-    </span>
-  </div>
-
-  <div class="nh-5-up-tile-div">
-    <span class="nh-5-up-tile nh-grow-effect" id="nh-kids-and-baby">
-      <a onclick="gtag('event', 'click', {'event_category': 'manualcodeCategory', 'event_label': 'homepage-evergreen-tile-shop-by-department-kids-and-baby'})" class="nh-5-up-tile-a-link" href="https://www.homemakers.com/shop/kids-and-baby/" target="_self">
-        <img alt="Kids and Baby" class="nh-5-up-tile-image" />
-        Kids &amp; Baby</a>
-    </span>
-  </div>
-
-  <div class="nh-5-up-tile-div">
-    <span class="nh-5-up-tile nh-grow-effect" id="nh-home-decor">
-      <a onclick="gtag('event', 'click', {'event_category': 'manualcodeCategory', 'event_label': 'homepage-evergreen-tile-shop-by-department-home-decor'})" class="nh-5-up-tile-a-link" href="https://www.homemakers.com/shop/home-decor/" target="_self">
-        <img alt="Home Decor" class="nh-5-up-tile-image" />
-        Home Decor</a>
-    </span>
-  </div>
-
-  <div class="nh-5-up-tile-div">
-    <span class="nh-5-up-tile nh-grow-effect" id="nh-outlet">
-      <a onclick="gtag('event', 'click', {'event_category': 'manualcodeCategory', 'event_label': 'homepage-evergreen-tile-shop-by-department-outlet'})" class="nh-5-up-tile-a-link" href="https://www.homemakers.com/shop/outlet/" target="_self">
-        <img alt="Hm Outlet" class="nh-5-up-tile-image" />
-        Outlet</a>
-    </span>
-  </div>
-</div>
-
-<!-- Script controls dynamically feeding content for the images in the tiles -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+<script src="https://momentjs.com/downloads/moment-timezone-with-data.js"></script>
 <script>
-  const section1 = document.querySelector('#nh-living-room');
-  const section2 = document.querySelector('#nh-dining-room');
-  const section3 = document.querySelector('#nh-bedroom');
-  const section4 = document.querySelector('#nh-mattresses');
-  const section5 = document.querySelector('#nh-home-office');
-  const section6 = document.querySelector('#nh-outdoor');
-  const section7 = document.querySelector('#nh-kids-and-baby');
-  const section8 = document.querySelector('#nh-home-decor');
-  const section9 = document.querySelector('#nh-outlet');
+  // Set your target date and timezone
+  var targetDate = moment.tz("2023-05-29T23:59:59", "America/Chicago");
+  var currentDate = moment().tz("America/Chicago");
 
-  const livingRoom = [
-    'images/hp/hp-living-room/nh-categories-living-room-0.png?$staticlink$',
-    'images/hp/hp-living-room/nh-categories-living-room-1.png?$staticlink$',
-    'images/hp/hp-living-room/nh-categories-living-room-2.png?$staticlink$',
-    'images/hp/hp-living-room/nh-categories-living-room-3.png?$staticlink$',
-    'images/hp/hp-living-room/nh-categories-living-room-4.png?$staticlink$',
-    'images/hp/hp-living-room/nh-categories-living-room-5.png?$staticlink$',
-  ];
+  // Update the countdown every 1 second
+  var countdown = setInterval(function() {
 
-  const diningRoom = [
-    'images/hp/hp-dining-room/nh-categories-dining-0.png?$staticlink$',
-    'images/hp/hp-dining-room/nh-categories-dining-1.png?$staticlink$',
-    'images/hp/hp-dining-room/nh-categories-dining-2.png?$staticlink$',
-    'images/hp/hp-dining-room/nh-categories-dining-3.png?$staticlink$',
-  ];
+    // Find the distance between now and the target date
+    var distance = targetDate.diff(currentDate);
 
-  const bedRoom = [
-    'images/hp/hp-bedroom/nh-categories-bedroom-0.png?$staticlink$',
-    'images/hp/hp-bedroom/nh-categories-bedroom-1.png?$staticlink$',
-    'images/hp/hp-bedroom/nh-categories-bedroom-2.png?$staticlink$',
-    'images/hp/hp-bedroom/nh-categories-bedroom-3.png?$staticlink$',
-  ];
+    // Time calculations for days, hours, minutes, and seconds
+    var hours = moment.duration(distance).hours();
+    var minutes = moment.duration(distance).minutes();
+    var seconds = moment.duration(distance).seconds();
 
-  const mattresses = [
-    'images/hp/hp-mattresses/nh-categories-mattresses-0.png?$staticlink$',
-    'images/hp/hp-mattresses/nh-categories-mattresses-1.png?$staticlink$',
-    'images/hp/hp-mattresses/nh-categories-mattresses-2.png?$staticlink$',
-  ];
+    // Display the result in the appropriate div elements
+    if (hours === 1) {
+      document.getElementById("promo-countdown-banner-banner-hours").innerHTML = (hours < 10 ? "0" : "") + hours + ":";
+    } else {
+      document.getElementById("promo-countdown-banner-hours").innerHTML = (hours < 10 ? "0" : "") + hours + ":";
+    }
+    if (minutes === 1) {
+      document.getElementById("promo-countdown-banner-minutes").innerHTML = (minutes < 10 ? "0" : "") + minutes + ":";
+    } else {
+      document.getElementById("promo-countdown-banner-minutes").innerHTML = (minutes < 10 ? "0" : "") + minutes + ":";
+    }
+    if (seconds === 1) {
+      document.getElementById("promo-countdown-banner-seconds").innerHTML = (seconds < 10 ? "0" : "") + seconds + "";
+    } else {
+      document.getElementById("promo-countdown-banner-seconds").innerHTML = (seconds < 10 ? "0" : "") + seconds + "";
+    }
 
-  const homeOffice = [
-    'images/hp/hp-home-office/nh-categories-office-0.png?$staticlink$',
-    'images/hp/hp-home-office/nh-categories-office-1.png?$staticlink$',
-    'images/hp/hp-home-office/nh-categories-office-2.png?$staticlink$',
-    'images/hp/hp-home-office/nh-categories-office-3.png?$staticlink$',
-  ];
-
-  const outdoor = [
-    'images/hp/hp-outdoor/nh-categories-outdoor-0.png?$staticlink$',
-    'images/hp/hp-outdoor/nh-categories-outdoor-1.png?$staticlink$',
-    'images/hp/hp-outdoor/nh-categories-outdoor-2.png?$staticlink$',
-    'images/hp/hp-outdoor/nh-categories-outdoor-3.png?$staticlink$',
-  ];
-
-  const kidsBaby = [
-    'images/hp/hp-kids-baby/nh-categories-kids-0.png?$staticlink$',
-    'images/hp/hp-kids-baby/nh-categories-kids-1.png?$staticlink$',
-    'images/hp/hp-kids-baby/nh-categories-kids-2.png?$staticlink$',
-    'images/hp/hp-kids-baby/nh-categories-kids-3.png?$staticlink$',
-  ];
-
-  const homeDecor = [
-    'images/hp/hp-home-decor/nh-categories-accessories-0.png?$staticlink$',
-    'images/hp/hp-home-decor/nh-categories-accessories-1.png?$staticlink$',
-    'images/hp/hp-home-decor/nh-categories-accessories-2.png?$staticlink$',
-    'images/hp/hp-home-decor/nh-categories-accessories-3.png?$staticlink$',
-    'images/hp/hp-home-decor/nh-categories-accessories-4.png?$staticlink$',
-  ];
-
-  const hmOutlet = [
-    'images/hp/hp-outlet/nh-categories-outlet-0.png?$staticlink$',
-    'images/hp/hp-outlet/nh-categories-outlet-1.png?$staticlink$',
-    'images/hp/hp-outlet/nh-categories-outlet-2.png?$staticlink$',
-    'images/hp/hp-outlet/nh-categories-outlet-3.png?$staticlink$',
-  ];
-
-  section1.querySelector('img').src = livingRoom[Math.floor(Math.random() * livingRoom.length)];
-  section2.querySelector('img').src = diningRoom[Math.floor(Math.random() * diningRoom.length)];
-  section3.querySelector('img').src = bedRoom[Math.floor(Math.random() * bedRoom.length)];
-  section4.querySelector('img').src = mattresses[Math.floor(Math.random() * mattresses.length)];
-  section5.querySelector('img').src = homeOffice[Math.floor(Math.random() * homeOffice.length)];
-  section6.querySelector('img').src = outdoor[Math.floor(Math.random() * outdoor.length)];
-  section7.querySelector('img').src = kidsBaby[Math.floor(Math.random() * kidsBaby.length)];
-  section8.querySelector('img').src = homeDecor[Math.floor(Math.random() * homeDecor.length)];
-  section9.querySelector('img').src = hmOutlet[Math.floor(Math.random() * hmOutlet.length)];
+    // If the count down is finished, write some text
+    if (distance < 0) {
+      clearInterval(countdown);
+      document.getElementById("hm-countdown-banner-timer").innerHTML = "Sale Ended";
+      document.getElementById("hm-countdown-banner-timer").innerHTML = "Sale Ended";
+      document.getElementById("hm-countdown-banner-timer").classList.add("banner-sale-ended");
+      document.getElementById("hm-countdown-banner-timer").classList.add("banner-sale-ended");
+    }
+    // update current date
+    currentDate = moment().tz("America/Chicago");
+  }, 1000);
 
 </script>
