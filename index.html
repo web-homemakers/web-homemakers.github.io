@@ -1,142 +1,620 @@
-<style>
-  .banner-sale-ended {
-    color: #ffffff;
-    font-family: Roboto;
-    font-size: 34px;
-    font-weight: bold;
-    display: flex;
-    text-align: center;
-  }
-
-  .hm-countdown-block {
-    color: #ffffff;
-    font-family: Roboto;
-    font-size: 34px;
-    font-weight: bold;
-    display: block;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin: auto;
-  }
-
-  #hm-countdown-banner-timer {
-    display: inline-flex;
-  }
-
-  .hm-countdown-banner-block-days {
-    color: #ffffff;
-    font-family: Roboto;
-    font-size: 34px;
-    font-weight: bold;
-    display: flex;
-  }
-
-  .hm-countdown-banner-block-hours {
-    color: #ffffff;
-    font-family: Roboto;
-    font-size: 34px;
-    font-weight: bold;
-    display: flex;
-  }
-
-  .hm-countdown-banner-block-minutes {
-    color: #ffffff;
-    font-family: Roboto;
-    font-size: 34px;
-    font-weight: bold;
-    display: flex;
-  }
-
-  .hm-countdown-banner-block-seconds {
-    color: #ffffff;
-    font-family: Roboto;
-    font-size: 34px;
-    font-weight: bold;
-    display: flex;
-  }
-
-  @media screen and (max-width: 767px) {
-    .banner-sale-ended {
-      font-size: 24px;
+<head>
+  <style type="text/css">
+    .hm-mds-grow-effect {
+      transition: all 0.2s ease-in-out;
+      outline: 0px solid #808080;
     }
 
-    .hm-countdown-block {
-      font-size: 24px;
+    .hm-mds-grow-effect:hover {
+      transform: scale(1.01);
+      transform: translateY(-5px);
+      outline: 2px solid #808080;
+      outline-offset: 10px;
     }
 
-    .hm-countdown-banner-block-hours {
-      font-size: 24px;
+    /* Horizontal scrolling section */
+    .hm-mds-horizontal-scroll-section {
+      width: 100%;
+      overflow-x: scroll;
+      white-space: nowrap;
+      margin-bottom: 20px;
     }
 
-    .hm-countdown-banner-block-minutes {
-      font-size: 24px;
-
+    .hm-mds-horizontal-scroll-section:active {
+      cursor: grabbing;
+      cursor: -webkit-grabbing;
+      user-select: none;
     }
 
-    .hm-countdown-banner-block-seconds {
-      font-size: 24px;
+    .hm-mds-horizontal-scroll-section::-webkit-scrollbar {
+      display: none;
     }
-  }
 
-</style>
+    /* Tile Section */
+    .hm-mds-4-up-tile-section {
+      display: flex;
+      justify-content: left;
+      max-width: 100%;
+      margin: 0;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      overflow-x: scroll;
+      touch-action: pan-y;
+      -webkit-overflow-scrolling: touch;
+      -ms-overflow-style: none;
+      cursor: grab;
+      cursor: -webkit-grab;
+    }
 
-<span class="hm-countdown-block">HURRY! SAVE THE TAX ENDS IN&nbsp;
-  <div id="hm-countdown-banner-timer">
-    <div class="hm-countdown-banner-block-hours" id="promo-countdown-banner-hours"></div>
-    <div class="hm-countdown-banner-block-minutes" id="promo-countdown-banner-minutes"></div>
-    <div class="hm-countdown-banner-block-seconds" id="promo-countdown-banner-seconds"></div>
+    .hm-mds-4-up-tile-section:active {
+      cursor: grabbing;
+      cursor: -webkit-grabbing;
+      -webkit-user-select: none;
+      -moz-user-select: moz-none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    .hm-mds-4-up-tile-section::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Created for spacing between tiles */
+    .hm-mds-4-up-tile-div {
+      display: flex;
+      flex-wrap: nowrap;
+      width: 100%;
+      min-width: 75%;
+      /* MODIFY FOR MOBILE TILE WIDTH */
+      border-radius: 14px;
+      margin: 0;
+      padding: 0;
+      scroll-snap-align: none;
+    }
+
+    .hm-mds-4-up-tile {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 10px;
+      background-color: #ffffff;
+      border: 0px solid #ffffff;
+      border-radius: 14px;
+      font-size: 16px;
+      text-align: center;
+      color: #232323;
+    }
+
+    .hm-mds-4-up-tile:hover {
+      box-shadow: 0px 2px 5px #b1b1b1;
+      color: #e51529;
+      background-color: #ffffff;
+      border: 0px solid #ffffff;
+      cursor: pointer;
+    }
+
+    .hm-mds-4-up-tile-image {
+      display: block;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Tile Link Section */
+    .hm-mds-4-up-tile-a-link {
+      padding-bottom: 0;
+    }
+
+    .hm-mds-4-up-tile-a-link:hover {
+      cursor: pointer;
+    }
+
+    /* Mobile-first approach, this adjusts the content for 768px or larger such as desktop */
+    @media screen and (min-width: 768px) {
+
+      .hm-mds-4-up-tile-section {
+        display: flex;
+        flex-wrap: wrap;
+        overflow-x: visible;
+        justify-content: center;
+        max-width: 100%;
+        margin: 0;
+        padding-top: 20px;
+        cursor: default;
+        cursor: -webkit-default;
+      }
+
+      .hm-mds-4-up-tile-section:active {
+        cursor: default;
+        cursor: -webkit-default;
+      }
+
+      /* Horizontal scrolling section */
+      .hm-mds-horizontal-scroll-section {
+        width: 100%;
+        overflow-x: visible;
+        white-space: normal;
+        margin-bottom: 0;
+        cursor: default;
+        cursor: -webkit-default;
+      }
+
+      .hm-mds-horizontal-scroll-section:active {
+        cursor: default;
+        cursor: -webkit-default;
+      }
+
+      .hm-mds-4-up-tile-div {
+        display: flex;
+        flex-wrap: wrap;
+        width: 25%;
+        min-width: 0;
+        /* MODIFY FOR DESKTOP TILE WIDTH - Left-right margins breaking somewhere */
+        margin: auto;
+        padding: auto;
+      }
+
+      .hm-mds-4-up-tile {
+        width: 100%;
+        margin: 10px;
+        height: auto;
+      }
+
+      .hm-mds-4-up-tile-image {
+        object-fit: contain;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+  <script>
+    window.onload = function() {
+      const slider = document.querySelector('.hm-mds-4-up-tile-section');
+      let disableClick = false;
+
+      interact(slider)
+        .draggable({
+          onmove: function(event) {
+            const dx = event.dx;
+            slider.scrollLeft -= dx;
+          },
+          onend: function(event) {
+            disableClick = false;
+          }
+        })
+        .on('down', function(event) {
+          disableClick = true;
+        });
+
+      // add click event listener to each tile
+      const tiles = document.querySelectorAll('.hm-mds-4-up-tile');
+      tiles.forEach(tile => {
+        tile.addEventListener('click', (e) => {
+          if (disableClick) {
+            e.preventDefault(); // prevent default click behavior if dragging
+          }
+        });
+      });
+    }
+
+  </script>
+</head>
+<div class="hm-mds-horizontal-scroll-section">
+  <div class="hm-mds-4-up-tile-section">
+
+    <div class="hm-mds-4-up-tile-div">
+      <span class="hm-mds-4-up-tile hm-mds-grow-effect" id="mds-dynamic-data-1">
+        <a class="hm-mds-4-up-tile-a-link" target="_self">
+          <img class="hm-mds-4-up-tile-image" loading="lazy">
+        </a>
+      </span>
+    </div>
+
+    <div class="hm-mds-4-up-tile-div">
+      <span class="hm-mds-4-up-tile hm-mds-grow-effect" id="mds-dynamic-data-2">
+        <a class="hm-mds-4-up-tile-a-link" target="_self">
+          <img class="hm-mds-4-up-tile-image" loading="lazy">
+        </a>
+      </span>
+    </div>
+
+    <div class="hm-mds-4-up-tile-div">
+      <span class="hm-mds-4-up-tile hm-mds-grow-effect" id="mds-dynamic-data-3">
+        <a class="hm-mds-4-up-tile-a-link" target="_self">
+          <img class="hm-mds-4-up-tile-image" loading="lazy">
+        </a>
+      </span>
+    </div>
+
+    <div class="hm-mds-4-up-tile-div">
+      <span class="hm-mds-4-up-tile hm-mds-grow-effect" id="mds-dynamic-data-4">
+        <a class="hm-mds-4-up-tile-a-link" target="_self">
+          <img class="hm-mds-4-up-tile-image" loading="lazy">
+        </a>
+      </span>
+    </div>
+
+    <div class="hm-mds-4-up-tile-div">
+      <span class="hm-mds-4-up-tile hm-mds-grow-effect" id="mds-dynamic-data-5">
+        <a class="hm-mds-4-up-tile-a-link" target="_self">
+          <img class="hm-mds-4-up-tile-image" loading="lazy">
+        </a>
+      </span>
+    </div>
+
+    <div class="hm-mds-4-up-tile-div">
+      <span class="hm-mds-4-up-tile hm-mds-grow-effect" id="mds-dynamic-data-6">
+        <a class="hm-mds-4-up-tile-a-link" target="_self">
+          <img class="hm-mds-4-up-tile-image" loading="lazy">
+        </a>
+      </span>
+    </div>
+
+    <div class="hm-mds-4-up-tile-div">
+      <span class="hm-mds-4-up-tile hm-mds-grow-effect" id="mds-dynamic-data-7">
+        <a class="hm-mds-4-up-tile-a-link" target="_self">
+          <img class="hm-mds-4-up-tile-image" loading="lazy">
+        </a>
+      </span>
+    </div>
+
+    <div class="hm-mds-4-up-tile-div">
+      <span class="hm-mds-4-up-tile hm-mds-grow-effect" id="mds-dynamic-data-8">
+        <a class="hm-mds-4-up-tile-a-link" target="_self">
+          <img class="hm-mds-4-up-tile-image" loading="lazy">
+        </a>
+      </span>
+    </div>
   </div>
-</span>
+</div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
-<script src="https://momentjs.com/downloads/moment-timezone-with-data.js"></script>
+<!-- Script controls dynamically feeding content for the images and text in the tiles -->
 <script>
-  // Set your target date and timezone
-  var targetDate = moment.tz("2023-05-29T23:59:59", "America/Chicago");
-  var currentDate = moment().tz("America/Chicago");
+  const section10 = document.querySelector('#mds-dynamic-data-1');
+  const section11 = document.querySelector('#mds-dynamic-data-2');
+  const section12 = document.querySelector('#mds-dynamic-data-3');
+  const section13 = document.querySelector('#mds-dynamic-data-4');
+  const section14 = document.querySelector('#mds-dynamic-data-5');
+  const section15 = document.querySelector('#mds-dynamic-data-6');
+  const section16 = document.querySelector('#mds-dynamic-data-7');
+  const section17 = document.querySelector('#mds-dynamic-data-8');
 
-  // Update the countdown every 1 second
-  var countdown = setInterval(function() {
+  const dynamicData1 = [{
+      image: 'images/hp/mds/mds-living-room-1.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-living-room’)$',
+        text: 'Shop the Memorial Day Living Room Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-living-room-2.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-living-room’)$',
+        text: 'Shop the Memorial Day Living Room Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-living-room-3.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-living-room’)$',
+        text: 'Shop the Memorial Day Living Room Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-living-room-4.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-living-room’)$',
+        text: 'Shop the Memorial Day Living Room Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-living-room-5.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-living-room’)$',
+        text: 'Shop the Memorial Day Living Room Sale'
+      }
+    },
+  ];
 
-    // Find the distance between now and the target date
-    var distance = targetDate.diff(currentDate);
+  const dynamicData2 = [{
+      image: 'images/hp/mds/mds-outdoor-1.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-dining-room’)$',
+        text: 'Shop the Memorial Day Outdoor Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-outdoor-2.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-dining-room’)$',
+        text: 'Shop the Memorial Day Outdoor Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-outdoor-3.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-dining-room’)$',
+        text: 'Shop the Memorial Day Outdoor Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-outdoor-4.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-dining-room’)$',
+        text: 'Shop the Memorial Day Outdoor Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-outdoor-5.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-dining-room’)$',
+        text: 'Shop the Memorial Day Outdoor Sale'
+      }
+    },
+  ];
 
-    // Time calculations for days, hours, minutes, and seconds
-    var hours = moment.duration(distance).hours();
-    var minutes = moment.duration(distance).minutes();
-    var seconds = moment.duration(distance).seconds();
+  const dynamicData3 = [{
+      image: 'images/hp/mds/mds-dining-1.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-dining-room’)$',
+        text: 'Shop the Memorial Day Dining Room Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-dining-2.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-dining-room’)$',
+        text: 'Shop the Memorial Day Dining Room Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-dining-3.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-dining-room’)$',
+        text: 'Shop the Memorial Day Dining Room Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-dining-4.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-dining-room’)$',
+        text: 'Shop the Memorial Day Dining Room Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-dining-5.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-dining-room’)$',
+        text: 'Shop the Memorial Day Dining Room Sale'
+      }
+    },
+  ];
 
-    // Display the result in the appropriate div elements
-    if (hours === 1) {
-      document.getElementById("promo-countdown-banner-banner-hours").innerHTML = (hours < 10 ? "0" : "") + hours + ":";
-    } else {
-      document.getElementById("promo-countdown-banner-hours").innerHTML = (hours < 10 ? "0" : "") + hours + ":";
-    }
-    if (minutes === 1) {
-      document.getElementById("promo-countdown-banner-minutes").innerHTML = (minutes < 10 ? "0" : "") + minutes + ":";
-    } else {
-      document.getElementById("promo-countdown-banner-minutes").innerHTML = (minutes < 10 ? "0" : "") + minutes + ":";
-    }
-    if (seconds === 1) {
-      document.getElementById("promo-countdown-banner-seconds").innerHTML = (seconds < 10 ? "0" : "") + seconds + "";
-    } else {
-      document.getElementById("promo-countdown-banner-seconds").innerHTML = (seconds < 10 ? "0" : "") + seconds + "";
-    }
+  const dynamicData4 = [{
+      image: 'images/hp/mds/mds-entertain-1.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-outdoor’)$',
+        text: 'Shop the Memorial Day Entertainment Furniture Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-entertain-2.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-outdoor’)$',
+        text: 'Shop the Memorial Day Entertainment Furniture Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-entertain-3.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-outdoor’)$',
+        text: 'Shop the Memorial Day Entertainment Furniture Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-entertain-4.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-outdoor’)$',
+        text: 'Shop the Memorial Day Entertainment Furniture Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-entertain-5.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-outdoor’)$',
+        text: 'Shop the Memorial Day Entertainment Furniture Sale'
+      }
+    },
+  ];
+  const dynamicData5 = [{
+      image: 'images/hp/mds/mds-home-decor-1.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-home-decor’)$',
+        text: 'Shop the Memorial Day Home Decor Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-home-decor-2.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-home-decor’)$',
+        text: 'Shop the Memorial Day Home Decor Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-home-decor-3.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-home-decor’)$',
+        text: 'Shop the Memorial Day Home Decor Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-home-decor-4.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-home-decor’)$',
+        text: 'Shop the Memorial Day Home Decor Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-home-decor-5.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-home-decor’)$',
+        text: 'Shop the Memorial Day Home Decor Sale'
+      }
+    },
+  ];
 
-    // If the count down is finished, write some text
-    if (distance < 0) {
-      clearInterval(countdown);
-      document.getElementById("hm-countdown-banner-timer").innerHTML = "Sale Ended";
-      document.getElementById("hm-countdown-banner-timer").innerHTML = "Sale Ended";
-      document.getElementById("hm-countdown-banner-timer").classList.add("banner-sale-ended");
-      document.getElementById("hm-countdown-banner-timer").classList.add("banner-sale-ended");
-    }
-    // update current date
-    currentDate = moment().tz("America/Chicago");
-  }, 1000);
+  const dynamicData6 = [{
+      image: 'images/hp/mds/mds-bedroom-1.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-mattress-room’)$',
+        text: 'Shop the Memorial Day Bedroom Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-bedroom-2.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-mattress-room’)$',
+        text: 'Shop the Memorial Day Bedroom Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-bedroom-3.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-mattress-room’)$',
+        text: 'Shop the Memorial Day Bedroom Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-bedroom-4.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-mattress-room’)$',
+        text: 'Shop the Memorial Day Bedroom Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-bedroom-5.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-mattress-room’)$',
+        text: 'Shop the Memorial Day Bedroom Sale'
+      }
+    },
+  ];
+
+  const dynamicData7 = [{
+      image: 'images/hp/mds/mds-mattress-1.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-mattress-room’)$',
+        text: 'Shop the Memorial Day mattress Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-mattress-2.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-mattress-room’)$',
+        text: 'Shop the Memorial Day mattress Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-mattress-3.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-mattress-room’)$',
+        text: 'Shop the Memorial Day mattress Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-mattress-4.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-mattress-room’)$',
+        text: 'Shop the Memorial Day mattress Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-mattress-5.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-mattress-room’)$',
+        text: 'Shop the Memorial Day mattress Sale'
+      }
+    },
+  ];
+
+  const dynamicData8 = [{
+      image: 'images/hp/mds/mds-kids-and-baby-1.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-bedroom’)$',
+        text: 'Shop the Memorial Day kids and baby Furniture Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-kids-and-baby-2.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-bedroom’)$',
+        text: 'Shop the Memorial Day kids and baby Furniture Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-kids-and-baby-3.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-bedroom’)$',
+        text: 'Shop the Memorial Day kids and baby Furniture Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-kids-and-baby-4.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-bedroom’)$',
+        text: 'Shop the Memorial Day kids and baby Furniture Sale'
+      }
+    },
+    {
+      image: 'images/hp/mds/mds-kids-and-baby-5.png?$staticlink$',
+      a: {
+        href: '$URL(‘search-show’,’cgid’,’memorial-day-sale-bedroom’)$',
+        text: 'Shop the Memorial Day kids and baby Furniture Sale'
+      }
+    },
+  ];
+
+  const dynamicIndex10 = Math.floor(Math.random() * dynamicData1.length);
+  const dynamicIndex11 = Math.floor(Math.random() * dynamicData2.length);
+  const dynamicIndex12 = Math.floor(Math.random() * dynamicData3.length);
+  const dynamicIndex13 = Math.floor(Math.random() * dynamicData4.length);
+  const dynamicIndex14 = Math.floor(Math.random() * dynamicData5.length);
+  const dynamicIndex15 = Math.floor(Math.random() * dynamicData6.length);
+  const dynamicIndex16 = Math.floor(Math.random() * dynamicData7.length);
+  const dynamicIndex17 = Math.floor(Math.random() * dynamicData8.length);
+
+  section10.querySelector('img').src = dynamicData1[dynamicIndex10].image;
+  section10.querySelector('img').alt = dynamicData1[dynamicIndex10].a.text;
+  section10.querySelector('a').href = dynamicData1[dynamicIndex10].a.href;
+
+  section11.querySelector('img').src = dynamicData2[dynamicIndex11].image;
+  section11.querySelector('img').alt = dynamicData2[dynamicIndex11].a.text;
+  section11.querySelector('a').href = dynamicData2[dynamicIndex11].a.href;
+
+  section12.querySelector('img').src = dynamicData3[dynamicIndex12].image;
+  section12.querySelector('img').alt = dynamicData3[dynamicIndex12].a.text;
+  section12.querySelector('a').href = dynamicData3[dynamicIndex12].a.href;
+
+  section13.querySelector('img').src = dynamicData4[dynamicIndex13].image;
+  section13.querySelector('img').alt = dynamicData4[dynamicIndex13].a.text;
+  section13.querySelector('a').href = dynamicData4[dynamicIndex13].a.href;
+
+  section14.querySelector('img').src = dynamicData5[dynamicIndex14].image;
+  section14.querySelector('img').alt = dynamicData5[dynamicIndex14].a.text;
+  section14.querySelector('a').href = dynamicData5[dynamicIndex14].a.href;
+
+  section15.querySelector('img').src = dynamicData6[dynamicIndex15].image;
+  section15.querySelector('img').alt = dynamicData6[dynamicIndex15].a.text;
+  section15.querySelector('a').href = dynamicData6[dynamicIndex15].a.href;
+
+  section16.querySelector('img').src = dynamicData7[dynamicIndex16].image;
+  section16.querySelector('img').alt = dynamicData7[dynamicIndex16].a.text;
+  section16.querySelector('a').href = dynamicData7[dynamicIndex16].a.href;
+
+  section17.querySelector('img').src = dynamicData8[dynamicIndex17].image;
+  section17.querySelector('img').alt = dynamicData8[dynamicIndex17].a.text;
+  section17.querySelector('a').href = dynamicData8[dynamicIndex17].a.href;
 
 </script>
