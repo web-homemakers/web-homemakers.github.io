@@ -1,0 +1,3153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shoppable Image Creator - Enterprise Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        :root {
+            /* Brand Colors */
+            --primary-cornel: #B32017;
+            --primary-poppy: #CD4941;
+            --black-primary: #332A2A;
+            --black-secondary: #4C4443;
+            --black-tertiary: #B1A9A9;
+            --sandstone: #E5D7C5;
+            --cedar: #CCA066;
+            --linen: #F0EBE6;
+            --canvas: #F6F3EE;
+            --white: #FFFFFF;
+
+            /* Legacy support */
+            --primary-color: var(--primary-cornel);
+            --primary-poppy-color: var(--primary-poppy);
+
+            /* System Colors */
+            --success-500: #2C6724;
+            --success-100: #D5DED1;
+            --danger-500: #C35100;
+            --danger-100: #FFDCCB;
+            --destructive-500: #B32017;
+            --destructive-100: #F8D4D2;
+            --black-100: #F3F1F1;
+            --black-200: #E3DEDE;
+            --black-300: #CBC3C2;
+            --black-400: #B1A9A9;
+            --black-500: #998F8F;
+            --black-600: #817574;
+            --black-700: #675C5B;
+            --black-800: #4C4443;
+            --black-900: #332A2A;
+            --shadow-sm: 0 0.125rem 0.25rem rgba(51, 42, 42, 0.15);
+            --shadow-md: 0 0.5rem 1rem rgba(51, 42, 42, 0.175);
+            --shadow-lg: 0 1rem 3rem rgba(51, 42, 42, 0.2);
+            --shadow-xl: 0 1.5rem 4rem rgba(51, 42, 42, 0.25);
+            --border-radius: 8px;
+            --border-radius-xxsm: 5px;
+            --border-radius-xsm: 12px;
+            --border-radius-sm: 14px;
+            --border-radius-md: 18px;
+            --border-radius-lg: 23px;
+            --border-radius-xlg: 28px;
+            --border-radius-xxlg: 35px;
+            --border-radius-xxxlg: 44px;
+            --font-system: 'Lato', sans-serif;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            /* background: linear-gradient(135deg, var(--primary-cornel) 0%, var(--primary-poppy) 100%); */
+            background: var(--black-100);
+            color: var(--black-900);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: 40px;
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-cornel) 0%, var(--primary-poppy) 100%);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.95;
+            font-size: 0.95rem;
+        }
+
+        @media (min-width: 768px) {
+            .header {
+                padding: 2rem;
+            }
+
+            .header h1 {
+                font-size: 2.25rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        @media (min-width: 1100px) {
+            .main-content {
+                display: grid;
+                grid-template-columns: 1fr 400px;
+                gap: 2rem;
+                padding: 2rem;
+            }
+        }
+
+        .workspace {
+            background: var(--canvas);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            min-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .workspace {
+                padding: 1.5rem;
+                min-height: 500px;
+            }
+        }
+
+        .workspace-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .workspace-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--black-primary);
+        }
+
+        .preview-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--black-secondary);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+            background: var(--black-400);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background-color cubic-bezier(0.18, 0.58, 0.28, 0.98) .4s;
+        }
+
+        .toggle-switch.active {
+            background: var(--primary-cornel);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(22px);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--sandstone);
+            border-radius: var(--border-radius);
+            padding: 2rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all cubic-bezier(0.18, 0.58, 0.28, 0.98) .4s;
+            background: white;
+        }
+
+        @media (min-width: 768px) {
+            .upload-area {
+                padding: 3rem 2rem;
+            }
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-cornel);
+            background: rgba(184, 40, 1, 0.03);
+        }
+
+        .upload-area.dragging {
+            border-color: var(--primary-poppy);
+            background: rgba(184, 40, 1, 0.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        .upload-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            stroke: var(--primary-cornel);
+        }
+
+        .upload-content h3 {
+            color: var(--black-primary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .upload-content p {
+            color: var(--black-secondary);
+            font-size: 0.9rem;
+        }
+
+        .image-wrapper {
+            display: none;
+        }
+
+        .image-container {
+            position: relative;
+            display: inline-block;
+            max-width: 100%;
+            margin: 1rem auto;
+            user-select: none;
+            overflow: visible;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+        }
+
+        .controls {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        @media (min-width: 768px) {
+            .controls {
+                padding: 1.5rem;
+            }
+        }
+
+        .control-tabs {
+            display: flex;
+            gap: 0px;
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .control-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        @media (max-width: 767px) {
+            .control-tabs {
+                justify-content: start;
+            }
+        }
+
+        .tab-button {
+            padding: 0.75rem 1rem;
+            background: none;
+            border: none;
+            color: var(--black-secondary);
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 2px solid var(--black-200);
+            white-space: nowrap;
+            transition: all cubic-bezier(0.18, 0.58, 0.28, 0.98) .4s;
+            font-size: 0.95rem;
+            width: 100%;
+        }
+
+        .tab-button:hover {
+            color: var(--black-primary);
+        }
+
+        .tab-button.active {
+            color: var(--primary-cornel);
+            border-bottom-color: var(--primary-cornel);
+        }
+
+        @media (max-width: 767px) {
+            .tab-button {
+                width: auto;
+            }
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .control-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--black-primary);
+            font-size: 0.95rem;
+        }
+
+        .control-group input,
+        .control-group textarea,
+        .control-group select {
+            width: 100%;
+            padding: 0.625rem 0.875rem;
+            border: 1.5px solid var(--black-300);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all cubic-bezier(0.18, 0.58, 0.28, 0.98) .4s;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .control-group input:focus,
+        .control-group textarea:focus,
+        .control-group select:focus {
+            outline: none;
+            border-color: var(--primary-cornel);
+            box-shadow: 0 0 0 3px rgba(184, 40, 1, 0.1);
+        }
+
+        .control-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            padding: 0.875rem;
+            background: var(--canvas);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 0.625rem;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-right: 0.625rem;
+            margin-bottom: 0.625rem;
+            font-size: 0.95rem;
+            transition: all cubic-bezier(0.18, 0.58, 0.28, 0.98) .4s;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary {
+            background: var(--black-primary);
+            color: white;
+            border: 1px solid var(--black-primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--black-secondary);
+            color: white;
+            border: 1px solid var(--black-secondary);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--black-primary);
+            border: 1px solid var(--black-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--black-secondary);
+            color: white;
+            border: 1px solid var(--black-secondary);
+        }
+
+        .btn-danger {
+            background: var(--destructive-500);
+            color: white;
+            border: 1px solid var(--destructive-500);
+        }
+
+        .btn-danger:hover {
+            background: var(--destructive-100);
+            color: var(--destructive-500);
+        }
+
+        .btn-success {
+            background: var(--success-500);
+            color: white;
+            border: 1px solid var(--success-500);
+        }
+
+        .btn-success:hover {
+            background: var(--success-100);
+            color: var(--success-500);
+        }
+
+        .btn-warning {
+            background: var(--danger-500);
+            color: white;
+            border: 1px solid var(--danger-500);
+        }
+
+        .btn-warning:hover {
+            background: var(--danger-100);
+            color: var(--danger-500);
+        }
+
+        .instructions {
+            background: var(--canvas);
+            padding: 1.25rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+        }
+
+        .instructions h3 {
+            margin-bottom: 0.75rem;
+            color: var(--black-primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .instructions ol {
+            margin-left: 1.25rem;
+            color: var(--black-secondary);
+        }
+
+        .instructions li {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .message {
+            padding: 0.875rem 1.25rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            max-width: 600px;
+            height: auto;
+            z-index: 9999;
+            opacity: 0;
+            transition: transform cubic-bezier(0.18, 0.58, 0.28, 0.98) .4s, opacity cubic-bezier(0.18, 0.58, 0.28, 0.98) .4s;
+        }
+
+        .message.show {
+            display: block;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .message.success {
+            background: var(--success-100);
+            color: var(--success-500);
+            border: 1px solid var(--success-500);
+        }
+
+        .message.error {
+            background: var(--destructive-100);
+            color: var(--destructive-500);
+            border: 1px solid var(--destructive-500);
+        }
+
+        .message.warning {
+            background: var(--danger-100);
+            color: var(--danger-500);
+            border: 1px solid var(--danger-500);
+        }
+
+        .hotspot-form {
+            display: none;
+        }
+
+        .hotspot-list {
+            max-height: 600px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--black-400) transparent;
+        }
+
+        .hotspot-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .hotspot-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .hotspot-list::-webkit-scrollbar-thumb {
+            background: var(--black-400);
+            border-radius: 3px;
+        }
+
+        .hotspot-item {
+            background: var(--canvas);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.625rem;
+            cursor: pointer;
+            transition: all cubic-bezier(0.18, 0.58, 0.28, 0.98) .4s;
+            border: 2px solid transparent;
+        }
+
+        .hotspot-item:hover {
+            background: var(--linen);
+        }
+
+        .hotspot-item.active {
+            background: rgba(184, 40, 1, 0.08);
+            border-color: var(--primary-cornel);
+        }
+
+        .code-output {
+            background: var(--black-900);
+            color: var(--black-100);
+            padding: 1.25rem;
+            border-radius: var(--border-radius);
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 1rem;
+            display: none;
+            scrollbar-width: thin;
+            scrollbar-color: var(--black-700) transparent;
+        }
+
+        .code-output::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .code-output::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .code-output::-webkit-scrollbar-thumb {
+            background: var(--black-700);
+            border-radius: 4px;
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        .drag-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.05);
+            z-index: 9999;
+            display: none;
+            cursor: grabbing;
+        }
+
+        .color-preview {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--black-300);
+            border-radius: 4px;
+            vertical-align: middle;
+            margin-left: 0.5rem;
+        }
+
+        .color-input-group {
+            display: flex;
+            gap: 0.625rem;
+            align-items: center;
+        }
+
+        .color-input-group input[type="color"] {
+            width: 48px;
+            height: 36px;
+            padding: 2px;
+            cursor: pointer;
+            border: 1.5px solid var(--black-300);
+        }
+
+        .color-input-group input[type="text"] {
+            flex: 1;
+        }
+
+        .image-url-section {
+            background: rgba(184, 40, 1, 0.05);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .image-url-section h4 {
+            color: var(--primary-cornel);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .image-url-section p {
+            font-size: 0.85rem;
+            color: var(--black-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        /* Hotspot Styles */
+        .hotspot {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            background: white;
+            border: 3px solid var(--primary-cornel);
+            border-radius: 50%;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            transition: transform cubic-bezier(0.18, 0.58, 0.28, 0.98) .4s;
+            z-index: 100;
+            animation: pulse 2s infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .hotspot.dragging {
+            opacity: 0.85;
+            cursor: grabbing !important;
+            animation: none;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(184, 40, 1, 0.6);
+            }
+
+            70% {
+                box-shadow: 0 0 0 12px rgba(184, 40, 1, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(184, 40, 1, 0);
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%);
+            }
+
+            25% {
+                transform: translate(-48%, -50%);
+            }
+
+            75% {
+                transform: translate(-52%, -50%);
+            }
+        }
+
+        @keyframes glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 5px rgba(184, 40, 1, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 20px rgba(184, 40, 1, 0.8);
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        @keyframes scale {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+        }
+
+        .hotspot.anim-bounce {
+            animation: bounce 1s infinite;
+        }
+
+        .hotspot.anim-shake {
+            animation: shake 0.5s infinite;
+        }
+
+        .hotspot.anim-glow {
+            animation: glow 2s infinite;
+        }
+
+        .hotspot.anim-rotate {
+            animation: rotate 2s linear infinite;
+        }
+
+        .hotspot.anim-scale {
+            animation: scale 2s infinite;
+        }
+
+        .hotspot.anim-none {
+            animation: none;
+        }
+
+        .hotspot:hover {
+            transform: translate(-50%, -50%) scale(1.15);
+            background: var(--primary-cornel);
+        }
+
+        .hotspot.active {
+            background: var(--primary-poppy);
+            border-color: var(--primary-poppy);
+        }
+
+        .hotspot-content {
+            color: var(--primary-cornel);
+            font-weight: 600;
+            font-size: 14px;
+            pointer-events: none;
+        }
+
+        .hotspot:hover .hotspot-content,
+        .hotspot.active .hotspot-content {
+            color: white;
+        }
+
+        /* Popup Styles */
+        .popup {
+            position: absolute;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-xl);
+            padding: 1.25rem;
+            width: 280px;
+            max-width: calc(100vw - 2rem);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all cubic-bezier(0.18, 0.58, 0.28, 0.98) .4s;
+            pointer-events: none;
+        }
+
+        @media (min-width: 480px) {
+            .popup {
+                width: 320px;
+                padding: 1.5rem;
+            }
+        }
+
+        .popup.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        /* Mobile-specific popup positioning */
+        @media (max-width: 767px) {
+            .popup.active {
+                position: fixed !important;
+                left: 50% !important;
+                top: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                bottom: auto !important;
+                right: auto !important;
+                width: min(90vw, 360px) !important;
+                max-height: 70vh !important;
+                overflow-y: auto !important;
+                z-index: 10000 !important;
+                background: white !important;
+                color: var(--black-primary) !important;
+                border: none !important;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+            }
+
+            .popup-title {
+                color: var(--black-primary) !important;
+            }
+
+            .popup-text {
+                color: var(--black-secondary) !important;
+            }
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 32px;
+            height: 32px;
+            background: rgba(51, 42, 42, 0.1);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--black-secondary);
+            fill: var(--black-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all cubic-bezier(0.18, 0.58, 0.28, 0.98) .4s;
+            line-height: 1;
+            padding: 0;
+        }
+
+        .popup-close svg {
+            color: var(--black-secondary);
+            fill: var(--black-secondary);
+        }
+
+        .popup-close:hover {
+            background: var(--linen);
+            color: var(--black-primary);
+        }
+
+        .popup-close:hover svg {
+            color: var(--primary-cornel);
+            fill: var(--primary-cornel);
+        }
+
+        .popup-image {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            background: var(--canvas);
+        }
+
+        .popup-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--black-primary);
+            line-height: 1.3;
+        }
+
+        .popup-text {
+            color: var(--black-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        .popup-price {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-cornel);
+            margin-bottom: 1rem;
+        }
+
+        .popup-button {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary-cornel);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            transition: all cubic-bezier(0.18, 0.58, 0.28, 0.98) .4s;
+        }
+
+        .popup-button:hover {
+            background: var(--primary-poppy);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Style Preview */
+        .style-preview-container {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: var(--canvas);
+            border-radius: var(--border-radius);
+        }
+
+        .style-preview-container h4 {
+            margin-bottom: 1rem;
+            color: var(--black-primary);
+            font-weight: 600;
+        }
+
+        #style-preview-hotspot {
+            position: relative !important;
+            transform: none !important;
+            margin: 1.5rem auto;
+            display: flex !important;
+        }
+
+        /* Data Management */
+        .data-management {
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            background: var(--canvas);
+            border-radius: var(--border-radius);
+        }
+
+        .data-management h4 {
+            margin-bottom: 1rem;
+            color: var(--black-primary);
+            font-weight: 600;
+        }
+
+        .auto-save-indicator {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: var(--success-100);
+            color: var(--success-500);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        /* Touch optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .hotspot {
+                width: 28px;
+                height: 28px;
+            }
+
+            .popup-close {
+                width: 28px;
+                height: 28px;
+                font-size: 24px;
+            }
+        }
+
+        /* Loading state */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--black-300);
+            border-radius: 50%;
+            border-top-color: var(--primary-cornel);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .controls,
+            .btn,
+            .popup-close {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Shoppable Image Creator</h1>
+            <p>Create interactive product hotspots on your images - Enterprise Edition</p>
+        </div>
+
+        <div class="main-content">
+            <div class="message" id="message"></div>
+            <div class="workspace">
+                <div class="workspace-header">
+                    <h2>Workspace</h2>
+                    <div class="preview-toggle">
+                        <span>Preview Mode</span>
+                        <div class="toggle-switch" id="preview-toggle">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-content">
+                        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <h3>Upload Your Image</h3>
+                        <p>Click to browse or drag and drop</p>
+                        <p style="color: var(--black-500); font-size: 0.875rem; margin-top: 0.25rem;">Supports: JPG,
+                            PNG, GIF, WebP</p>
+                    </div>
+                    <input type="file" id="file-input" accept="image/*">
+                </div>
+
+                <div class="image-wrapper" id="image-wrapper">
+                    <div class="image-container" id="image-container"></div>
+                    <div style="margin-top: 1.5rem; text-align: center;">
+                        <button class="btn btn-primary" id="change-image-btn">Change Image</button>
+                        <button class="btn btn-secondary" id="clear-all-btn">Clear All Hotspots</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <div class="control-tabs">
+                    <button class="tab-button active" data-tab="edit">Edit</button>
+                    <button class="tab-button" data-tab="style">Style</button>
+                    <button class="tab-button" data-tab="list">List</button>
+                    <button class="tab-button" data-tab="data">Data</button>
+                    <button class="tab-button" data-tab="export">Export</button>
+                </div>
+
+                <div id="edit-tab" class="tab-content active">
+                    <div class="instructions">
+                        <h3>Quick Guide</h3>
+                        <ol>
+                            <li>Upload an image to get started</li>
+                            <li>Click on the image to add hotspots</li>
+                            <li>Drag hotspots to reposition them</li>
+                            <li>Fill in product details for each hotspot</li>
+                            <li>Export the HTML code for your website</li>
+                        </ol>
+                    </div>
+
+                    <div class="hotspot-form" id="hotspot-form">
+                        <h3 id="hotspot-details-heading" style="margin-bottom: 1rem; color: var(--black-primary);">
+                            Editing Hotspot</h3>
+
+                        <div class="control-group">
+                            <label for="product-title">Product Title</label>
+                            <input type="text" id="product-title" placeholder="Enter product name">
+                        </div>
+
+                        <div class="control-group">
+                            <label for="product-description">Description</label>
+                            <textarea id="product-description" placeholder="Describe the product"></textarea>
+                        </div>
+
+                        <div class="control-group">
+                            <label for="product-price">Price</label>
+                            <input type="text" id="product-price" placeholder="$0.00">
+                        </div>
+
+                        <div class="control-group">
+                            <label for="product-image">Product Image URL</label>
+                            <input type="url" id="product-image"
+                                placeholder="https://cdn.homemakers.com/ASHY283S_A.webp">
+                        </div>
+
+                        <div class="control-group">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="show-cta" checked>
+                                <label for="show-cta">Show Call-to-Action Button</label>
+                            </div>
+                        </div>
+
+                        <div id="cta-fields">
+                            <div class="control-group">
+                                <label for="button-text">Button Text</label>
+                                <input type="text" id="button-text" placeholder="Shop Now">
+                            </div>
+
+                            <div class="control-group">
+                                <label for="button-link">Button Link</label>
+                                <input type="url" id="button-link" placeholder="Enter product SKU" maxlength="12"
+                                    minlength="4" pattern="[a-zA-Z0-9]+"
+                                    title="SKU must be 4-12 alphanumeric characters">
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1.5rem;">
+                            <button class="btn btn-primary" id="save-hotspot-btn">Save Changes</button>
+                            <button class="btn btn-danger" id="delete-hotspot-btn">Delete</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="style-tab" class="tab-content">
+                    <h3 style="margin-bottom: 1.25rem; color: var(--black-primary);">Style Customization</h3>
+
+                    <div class="control-group">
+                        <label for="hotspot-display">Hotspot Display</label>
+                        <select id="hotspot-display">
+                            <option value="none">Hide Numbers</option>
+                            <option value="numbers">Show Numbers</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="hotspot-animation">Hotspot Animation</label>
+                        <select id="hotspot-animation">
+                            <option value="pulse">Pulse (Default)</option>
+                            <option value="bounce">Bounce</option>
+                            <option value="shake">Shake</option>
+                            <option value="glow">Glow</option>
+                            <option value="rotate">Rotate</option>
+                            <option value="scale">Scale</option>
+                            <option value="none">None</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="hover-animation">Hover Animation</label>
+                        <select id="hover-animation">
+                            <option value="scale">Scale Up (Default)</option>
+                            <option value="bounce">Bounce</option>
+                            <option value="wobble">Wobble</option>
+                            <option value="flip">Flip</option>
+                            <option value="spin">Spin</option>
+                            <option value="pulse">Pulse</option>
+                            <option value="glow">Glow Expand</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="hotspot-size">Hotspot Size: <span id="size-value"
+                                style="color: var(--primary-cornel); font-weight: 600;">32px</span></label>
+                        <input type="range" id="hotspot-size" min="24" max="60" value="32">
+                    </div>
+
+                    <!-- <div class="control-group">
+                        <label>Hotspot Color <span class="color-preview" id="hotspot-color-preview"></span></label>
+                        <div class="color-input-group">
+                            <input type="color" id="hotspot-color" value="#B32017">
+                            <input type="text" id="hotspot-color-text" value="#B32017" placeholder="#B32017">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Hotspot Background <span class="color-preview" id="hotspot-bg-preview"></span></label>
+                        <div class="color-input-group">
+                            <input type="color" id="hotspot-bg" value="#FFFFFF">
+                            <input type="text" id="hotspot-bg-text" value="#FFFFFF" placeholder="#FFFFFF">
+                        </div>
+                    </div> -->
+
+                    <div class="control-group">
+                        <label for="border-width">Border Width: <span id="border-value"
+                                style="color: var(--primary-cornel); font-weight: 600;">2px</span></label>
+                        <input type="range" id="border-width" min="1" max="8" value="2">
+                    </div>
+
+                    <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid var(--black-200);">
+
+                    <h4 style="margin-bottom: 1rem; color: var(--black-primary);">Popup Styling</h4>
+
+                    <!-- <div class="control-group">
+                        <label>Popup Background <span class="color-preview" id="popup-bg-preview"></span></label>
+                        <div class="color-input-group">
+                            <input type="color" id="popup-bg" value="#FFFFFF">
+                            <input type="text" id="popup-bg-text" value="#FFFFFF" placeholder="#FFFFFF">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Title Color <span class="color-preview" id="title-color-preview"></span></label>
+                        <div class="color-input-group">
+                            <input type="color" id="title-color" value="#332A2A">
+                            <input type="text" id="title-color-text" value="#332A2A" placeholder="#332A2A">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Text Color <span class="color-preview" id="text-color-preview"></span></label>
+                        <div class="color-input-group">
+                            <input type="color" id="text-color" value="#332A2A">
+                            <input type="text" id="text-color-text" value="#332A2A" placeholder="#332A2A">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Price Color <span class="color-preview" id="price-color-preview"></span></label>
+                        <div class="color-input-group">
+                            <input type="color" id="price-color" value="#B32017">
+                            <input type="text" id="price-color-text" value="#B32017" placeholder="#B32017">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Button Background <span class="color-preview" id="button-bg-preview"></span></label>
+                        <div class="color-input-group">
+                            <input type="color" id="button-bg" value="#B32017">
+                            <input type="text" id="button-bg-text" value="#B32017" placeholder="#B32017">
+                        </div>
+                    </div> -->
+
+                    <div class="control-group">
+                        <label for="font-family">Font Family</label>
+                        <select id="font-family">
+                            <option value="system">System Default</option>
+                            <option value="Lato">Lato</option>
+                            <option value="Verdana">Verdana</option>
+                        </select>
+                    </div>
+
+                    <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid var(--black-200);">
+
+                    <h4 style="margin-bottom: 1rem; color: var(--black-primary);">Image Dimensions</h4>
+
+                    <div class="control-group">
+                        <label for="image-width">Width</label>
+                        <select id="image-width">
+                            <option value="100%">100% (Full Width)</option>
+                            <option value="auto">Auto (Original Size)</option>
+                            <option value="800px">800px</option>
+                            <option value="600px">600px</option>
+                            <option value="500px">500px</option>
+                            <option value="400px">400px</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                        <input type="text" id="custom-width" placeholder="e.g., 750px or 90%"
+                            style="display: none; margin-top: 0.5rem;">
+                    </div>
+
+                    <div class="control-group">
+                        <label for="image-height">Height</label>
+                        <select id="image-height">
+                            <option value="auto">Auto (Maintain Aspect Ratio)</option>
+                            <option value="400px">400px</option>
+                            <option value="300px">300px</option>
+                            <option value="500px">500px</option>
+                            <option value="600px">600px</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                        <input type="text" id="custom-height" placeholder="e.g., 400px"
+                            style="display: none; margin-top: 0.5rem;">
+                    </div>
+
+                    <div class="style-preview-container">
+                        <h4>Preview</h4>
+                        <div style="text-align: center;">
+                            <div id="style-preview-hotspot" class="hotspot">
+                                <span class="hotspot-content">1</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.5rem;">
+                        <button class="btn btn-primary" onclick="app.applyStyles()">Apply Styles</button>
+                        <button class="btn btn-secondary" onclick="app.resetStyles()">Reset to Default</button>
+                    </div>
+                </div>
+
+                <div id="list-tab" class="tab-content">
+                    <h3 style="margin-bottom: 1.25rem; color: var(--black-primary);">Hotspot List</h3>
+                    <div class="hotspot-list" id="hotspot-list">
+                        <p style="color: var(--black-secondary); text-align: center; padding: 2rem;">No hotspots added
+                            yet</p>
+                    </div>
+                </div>
+
+                <div id="data-tab" class="tab-content">
+                    <h3 style="margin-bottom: 1rem; color: var(--black-primary);">Data Management</h3>
+                    <p style="color: var(--black-secondary); margin-bottom: 1.25rem;">Save, load, and manage your
+                        shoppable image projects</p>
+
+                    <div class="data-management">
+                        <h4>Auto-Save <span class="auto-save-indicator" id="auto-save-status">Enabled</span></h4>
+                        <p style="color: var(--black-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Your work is
+                            automatically saved to browser storage.</p>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <button class="btn btn-primary" id="save-project-btn">Save Project</button>
+                            <button class="btn btn-secondary" id="load-project-btn">Load Project</button>
+                            <input type="file" id="project-file-input" accept=".json" style="display: none;">
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <button class="btn btn-success" id="export-project-btn">Export Project</button>
+                            <button class="btn btn-danger" id="clear-storage-btn">Clear Storage</button>
+                        </div>
+
+                        <div style="font-size: 0.85rem; color: var(--black-secondary); line-height: 1.4;">
+                            <strong>Storage Info:</strong>
+                            <div id="storage-info">Calculating...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="export-tab" class="tab-content">
+                    <h3 style="margin-bottom: 1rem; color: var(--black-primary);">Export HTML</h3>
+                    <p style="color: var(--black-secondary); margin-bottom: 1.25rem;">Generate production-ready code for
+                        your website.</p>
+
+                    <div class="image-url-section">
+                        <h4>Important: Image URL Required</h4>
+                        <p>Before exporting, please specify the URL where your image will be hosted:</p>
+                        <div class="control-group">
+                            <input type="url" id="export-image-url"
+                                placeholder="/images/hp/ASHY283S_G.jpg?$staticlink$">
+                        </div>
+                        <button class="btn btn-warning" id="use-placeholder-url">Use Placeholder URL</button>
+                    </div>
+
+                    <button class="btn btn-success" id="export-btn">Generate Code</button>
+                    <button class="btn btn-primary" id="copy-btn" style="display: none;">Copy To Clipboard</button>
+
+                    <div class="code-output" id="code-output"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="drag-overlay" id="drag-overlay"></div>
+
+    <script>
+        // Enterprise-grade Shoppable Image Creator with Data Persistence
+        class ShoppableImageCreator {
+            constructor() {
+                this.hotspots = [];
+                this.currentHotspotIndex = -1;
+                this.imageUrl = '';
+                this.exportImageUrl = '';
+                this.previewMode = false;
+                this.isDragging = false;
+                this.dragData = {};
+                this.isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+                this.autoSaveEnabled = true;
+                this.projectName = 'shoppable-image-' + Date.now();
+                this.styles = {
+                    hotspotDisplay: 'none',
+                    hotspotAnimation: 'pulse',
+                    hoverAnimation: 'scale',
+                    hotspotSize: 32,
+                    hotspotColor: '#B32017',
+                    hotspotBg: '#FFFFFF',
+                    borderWidth: 2,
+                    borderRadius: '50%',
+                    shadowStyle: 'default',
+                    popupBg: '#FFFFFF',
+                    titleColor: '#332A2A',
+                    textColor: '#332A2A',
+                    priceColor: '#B32017',
+                    buttonBg: '#B32017',
+                    buttonTextColor: '#FFFFFF',
+                    fontFamily: 'Lato',
+                    imageWidth: '100%',
+                    imageHeight: 'auto'
+                };
+
+                this.init();
+                this.loadFromStorage();
+                this.updateStorageInfo();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.setupTabSwitching();
+                this.updateColorPreviews();
+                this.updateRangeValues();
+                // this.startAutoSave();
+            }
+
+            setupEventListeners() {
+                // File upload
+                const uploadArea = document.getElementById('upload-area');
+                const fileInput = document.getElementById('file-input');
+
+                uploadArea.addEventListener('click', () => fileInput.click());
+                fileInput.addEventListener('change', (e) => this.handleFileSelect(e));
+
+                // Drag and drop
+                uploadArea.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    uploadArea.classList.add('dragging');
+                });
+
+                uploadArea.addEventListener('dragleave', () => {
+                    uploadArea.classList.remove('dragging');
+                });
+
+                uploadArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    uploadArea.classList.remove('dragging');
+                    this.handleFileDrop(e);
+                });
+
+                // Preview toggle
+                document.getElementById('preview-toggle').addEventListener('click', () => {
+                    this.togglePreviewMode();
+                });
+
+                // CTA checkbox
+                const showCta = document.getElementById('show-cta');
+                showCta.addEventListener('change', () => {
+                    document.getElementById('cta-fields').style.display = showCta.checked ? 'block' : 'none';
+                });
+
+                // Main buttons
+                document.getElementById('change-image-btn').addEventListener('click', () => {
+                    fileInput.click();
+                });
+
+                document.getElementById('clear-all-btn').addEventListener('click', () => {
+                    this.clearAllHotspots();
+                });
+
+                document.getElementById('save-hotspot-btn').addEventListener('click', () => {
+                    this.saveCurrentHotspot();
+                });
+
+                document.getElementById('delete-hotspot-btn').addEventListener('click', () => {
+                    this.deleteCurrentHotspot();
+                });
+
+                document.getElementById('export-btn').addEventListener('click', () => {
+                    this.exportHTML();
+                });
+
+                document.getElementById('copy-btn').addEventListener('click', () => {
+                    this.copyToClipboard();
+                });
+
+                // Export Image URL handlers
+                document.getElementById('use-placeholder-url').addEventListener('click', () => {
+                    document.getElementById('export-image-url').value = '/images/hp/ASHY283S_G.jpg?$staticlink$';
+                    this.showMessage('Placeholder URL set. Remember to replace it with your actual image URL!', 'warning');
+                });
+
+                // Data management buttons
+                document.getElementById('save-project-btn').addEventListener('click', () => {
+                    this.saveToStorage();
+                });
+
+                document.getElementById('load-project-btn').addEventListener('click', () => {
+                    document.getElementById('project-file-input').click();
+                });
+
+                document.getElementById('project-file-input').addEventListener('change', (e) => {
+                    this.loadProject(e);
+                });
+
+                document.getElementById('export-project-btn').addEventListener('click', () => {
+                    this.exportProject();
+                });
+
+                document.getElementById('clear-storage-btn').addEventListener('click', () => {
+                    this.clearStorage();
+                });
+
+                document.getElementById('hotspot-form').addEventListener('input', (e) => {
+                    // Update heading immediately if title changes
+                    if (e.target.id === 'product-title' && this.currentHotspotIndex >= 0) {
+                        this.hotspots[this.currentHotspotIndex].title = e.target.value;
+                        this.updateHotspotHeading();
+                    }
+
+                    clearTimeout(this.inputSaveTimeout);
+                    this.inputSaveTimeout = setTimeout(() => {
+                        if (this.currentHotspotIndex >= 0) {
+                            this.saveCurrentHotspot();
+                        }
+                    }, 500);
+                });
+
+                // Style controls
+                this.setupStyleControls();
+
+                // Global drag events
+                if (this.isTouchDevice) {
+                    document.addEventListener('touchmove', (e) => this.handleTouchMove(e), { passive: false });
+                    document.addEventListener('touchend', (e) => this.handleTouchEnd(e));
+                } else {
+                    document.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+                    document.addEventListener('mouseup', (e) => this.handleMouseUp(e));
+                }
+
+                const priceInput = document.getElementById('product-price');
+
+                if (priceInput) {
+                    priceInput.addEventListener('input', (e) => {
+                        const input = e.target;
+                        let value = input.value;
+
+                        // Save cursor position
+                        let caretPos = input.selectionStart;
+
+                        const hasDollar = value.startsWith('$');
+                        value = hasDollar ? value.slice(1) : value;
+
+                        // Remove non-numeric/non-dot characters
+                        value = value.replace(/[^0-9.]/g, '');
+
+                        // Handle multiple dots
+                        const parts = value.split('.');
+                        if (parts.length > 2) {
+                            value = parts.shift() + '.' + parts.join('');
+                        }
+
+                        // Limit decimals to 2
+                        if (parts[1]?.length > 2) {
+                            value = parts[0] + '.' + parts[1].substring(0, 2);
+                        }
+
+                        // Add commas to integer part
+                        let [intPart, decPart] = value.split('.');
+                        intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                        value = decPart !== undefined ? intPart + '.' + decPart : intPart;
+
+                        // Restore $ if it was there
+                        if (hasDollar) value = '$' + value;
+
+                        // Calculate new caret position
+                        const diff = value.length - input.value.length;
+                        input.value = value;
+                        input.setSelectionRange(caretPos + diff, caretPos + diff);
+                    });
+
+                    priceInput.addEventListener('blur', (e) => {
+                        let value = e.target.value.replace(/^\$/, ''); // remove $ temporarily
+                        if (!value) return;
+
+                        // Split int/decimal
+                        let [intPart, decPart] = value.split('.');
+                        if (!decPart) decPart = '00';
+                        else if (decPart.length === 1) decPart += '0';
+                        else if (decPart.length > 2) decPart = decPart.substring(0, 2);
+
+                        // Add commas
+                        intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+                        e.target.value = '$' + intPart + '.' + decPart;
+                    });
+                }
+            }
+
+            // Data persistence methods
+            startAutoSave() {
+                setInterval(() => {
+                    if (this.autoSaveEnabled) {
+                        this.autoSave();
+                    }
+                }, 30000); // Auto-save every 30 seconds
+            }
+
+            autoSave() {
+                try {
+                    const data = this.getProjectData();
+                    localStorage.setItem('shoppable-image-autosave', JSON.stringify(data));
+                    document.getElementById('auto-save-status').textContent = 'Saved ' + new Date().toLocaleTimeString();
+                } catch (error) {
+                    console.warn('Auto-save failed:', error);
+                    document.getElementById('auto-save-status').textContent = 'Error';
+                }
+            }
+
+            saveToStorage() {
+                try {
+                    const data = this.getProjectData();
+                    localStorage.setItem('shoppable-image-project', JSON.stringify(data));
+                    this.showMessage('Project saved to browser storage.', 'success');
+                    this.updateStorageInfo();
+                } catch (error) {
+                    this.showMessage('Failed to save project: ' + error.message, 'error');
+                }
+            }
+
+            loadFromStorage() {
+                try {
+                    const saved = localStorage.getItem('shoppable-image-autosave');
+                    if (saved) {
+                        const data = JSON.parse(saved);
+                        this.loadProjectData(data);
+                    }
+                } catch (error) {
+                    console.warn('Failed to load from storage:', error);
+                }
+            }
+
+            getProjectData() {
+                return {
+                    version: '2.0',
+                    timestamp: Date.now(),
+                    projectName: this.projectName,
+                    imageUrl: this.imageUrl,
+                    exportImageUrl: this.exportImageUrl,
+                    hotspots: this.hotspots,
+                    styles: this.styles,
+                    previewMode: this.previewMode
+                };
+            }
+
+            loadProjectData(data) {
+                if (data.version && data.hotspots) {
+                    this.hotspots = data.hotspots || [];
+                    this.styles = { ...this.styles, ...(data.styles || {}) };
+                    this.projectName = data.projectName || this.projectName;
+                    this.exportImageUrl = data.exportImageUrl || '';
+
+                    if (data.imageUrl) {
+                        this.imageUrl = data.imageUrl;
+                        this.displayImage();
+                    }
+
+                    this.updateStyleControls();
+                    this.updateHotspotList();
+                    this.renderHotspots();
+
+                    // Restore export image URL if available
+                    if (this.exportImageUrl) {
+                        document.getElementById('export-image-url').value = this.exportImageUrl;
+                    }
+                }
+            }
+
+            loadProject(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        this.loadProjectData(data);
+                        this.showMessage('Project loaded.', 'success');
+                    } catch (error) {
+                        this.showMessage('Failed to load project.', 'error');
+                    }
+                };
+                reader.readAsText(file);
+            }
+
+            exportProject() {
+                try {
+                    const data = this.getProjectData();
+                    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${this.projectName}.json`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+
+                    this.showMessage('Project exported successfully!', 'success');
+                } catch (error) {
+                    this.showMessage('Failed to export project', 'error');
+                }
+            }
+
+            clearStorage() {
+                if (confirm('This will clear all saved data. Continue?')) {
+                    localStorage.removeItem('shoppable-image-project');
+                    localStorage.removeItem('shoppable-image-autosave');
+                    this.showMessage('Storage cleared.', 'success');
+                    this.updateStorageInfo();
+                }
+            }
+
+            updateStorageInfo() {
+                try {
+                    const project = localStorage.getItem('shoppable-image-project');
+                    const autosave = localStorage.getItem('shoppable-image-autosave');
+
+                    let info = '';
+                    if (project) {
+                        const size = (new Blob([project]).size / 1024).toFixed(1);
+                        info += `Project: ${size} KB<br>`;
+                    }
+                    if (autosave) {
+                        const size = (new Blob([autosave]).size / 1024).toFixed(1);
+                        const data = JSON.parse(autosave);
+                        const date = new Date(data.timestamp).toLocaleDateString();
+                        info += `Auto-save: ${size} KB (${date})<br>`;
+                    }
+
+                    document.getElementById('storage-info').innerHTML = info || 'No saved data';
+                } catch (error) {
+                    document.getElementById('storage-info').textContent = 'Error reading storage';
+                }
+            }
+
+            updateStyleControls() {
+                const controls = {
+                    'hotspot-display': this.styles.hotspotDisplay,
+                    'hotspot-animation': this.styles.hotspotAnimation,
+                    'hover-animation': this.styles.hoverAnimation,
+                    'hotspot-size': this.styles.hotspotSize,
+                    'hotspot-color': this.styles.hotspotColor,
+                    'hotspot-color-text': this.styles.hotspotColor,
+                    'hotspot-bg': this.styles.hotspotBg,
+                    'hotspot-bg-text': this.styles.hotspotBg,
+                    'border-width': this.styles.borderWidth,
+                    'popup-bg': this.styles.popupBg,
+                    'popup-bg-text': this.styles.popupBg,
+                    'title-color': this.styles.titleColor,
+                    'title-color-text': this.styles.titleColor,
+                    'text-color': this.styles.textColor,
+                    'text-color-text': this.styles.textColor,
+                    'price-color': this.styles.priceColor,
+                    'price-color-text': this.styles.priceColor,
+                    'button-bg': this.styles.buttonBg,
+                    'button-bg-text': this.styles.buttonBg,
+                    'font-family': this.styles.fontFamily,
+                    'image-width': this.styles.imageWidth,
+                    'image-height': this.styles.imageHeight
+                };
+
+                Object.entries(controls).forEach(([id, value]) => {
+                    const element = document.getElementById(id);
+                    if (element) element.value = value;
+                });
+
+                // Handle custom width/height fields
+                if (this.styles.imageWidth && !['100%', 'auto', '800px', '600px', '500px', '400px'].includes(this.styles.imageWidth)) {
+                    document.getElementById('image-width').value = 'custom';
+                    document.getElementById('custom-width').value = this.styles.imageWidth;
+                    document.getElementById('custom-width').style.display = 'block';
+                }
+
+                if (this.styles.imageHeight && !['auto', '400px', '300px', '500px', '600px'].includes(this.styles.imageHeight)) {
+                    document.getElementById('image-height').value = 'custom';
+                    document.getElementById('custom-height').value = this.styles.imageHeight;
+                    document.getElementById('custom-height').style.display = 'block';
+                }
+
+                this.updateColorPreviews();
+                this.updateRangeValues();
+                this.updateStylePreview();
+            }
+
+            setupStyleControls() {
+                // Color synchronization
+                const colorPairs = [
+                    ['hotspot-color', 'hotspot-color-text', 'hotspot-color-preview'],
+                    ['hotspot-bg', 'hotspot-bg-text', 'hotspot-bg-preview'],
+                    ['popup-bg', 'popup-bg-text', 'popup-bg-preview'],
+                    ['title-color', 'title-color-text', 'title-color-preview'],
+                    ['text-color', 'text-color-text', 'text-color-preview'],
+                    ['price-color', 'price-color-text', 'price-color-preview'],
+                    ['button-bg', 'button-bg-text', 'button-bg-preview']
+                ];
+
+                colorPairs.forEach(([colorId, textId, previewId]) => {
+                    const colorInput = document.getElementById(colorId);
+                    const textInput = document.getElementById(textId);
+                    const preview = document.getElementById(previewId);
+
+                    if (colorInput && textInput) {
+                        colorInput.addEventListener('input', (e) => {
+                            textInput.value = e.target.value;
+                            if (preview) preview.style.backgroundColor = e.target.value;
+                            this.updateStylePreview();
+                        });
+
+                        textInput.addEventListener('input', (e) => {
+                            if (this.isValidHex(e.target.value)) {
+                                colorInput.value = e.target.value;
+                                if (preview) preview.style.backgroundColor = e.target.value;
+                                this.updateStylePreview();
+                            }
+                        });
+                    }
+                });
+
+                // Range inputs
+                document.getElementById('hotspot-size').addEventListener('input', (e) => {
+                    document.getElementById('size-value').textContent = e.target.value + 'px';
+                    this.updateStylePreview();
+                });
+
+                document.getElementById('border-width').addEventListener('input', (e) => {
+                    document.getElementById('border-value').textContent = e.target.value + 'px';
+                    this.updateStylePreview();
+                });
+
+                // Other style controls
+                ['hotspot-display', 'hotspot-animation', 'hover-animation', 'font-family', 'image-width', 'image-height'].forEach(id => {
+                    document.getElementById(id)?.addEventListener('change', () => this.updateStylePreview());
+                });
+
+                // Custom width/height field toggles
+                document.getElementById('image-width')?.addEventListener('change', (e) => {
+                    const customField = document.getElementById('custom-width');
+                    customField.style.display = e.target.value === 'custom' ? 'block' : 'none';
+                    this.updateStylePreview();
+                });
+
+                document.getElementById('image-height')?.addEventListener('change', (e) => {
+                    const customField = document.getElementById('custom-height');
+                    customField.style.display = e.target.value === 'custom' ? 'block' : 'none';
+                    this.updateStylePreview();
+                });
+
+                document.getElementById('custom-width')?.addEventListener('input', () => this.updateStylePreview());
+                document.getElementById('custom-height')?.addEventListener('input', () => this.updateStylePreview());
+            }
+
+            isValidHex(hex) {
+                return /^#[0-9A-F]{6}$/i.test(hex);
+            }
+
+            updateRangeValues() {
+                document.getElementById('size-value').textContent = document.getElementById('hotspot-size').value + 'px';
+                document.getElementById('border-value').textContent = document.getElementById('border-width').value + 'px';
+            }
+
+            updateColorPreviews() {
+                const colorPairs = [
+                    ['hotspot-color', 'hotspot-color-preview'],
+                    ['hotspot-bg', 'hotspot-bg-preview'],
+                    ['popup-bg', 'popup-bg-preview'],
+                    ['title-color', 'title-color-preview'],
+                    ['text-color', 'text-color-preview'],
+                    ['price-color', 'price-color-preview'],
+                    ['button-bg', 'button-bg-preview']
+                ];
+
+                colorPairs.forEach(([inputId, previewId]) => {
+                    const input = document.getElementById(inputId);
+                    const preview = document.getElementById(previewId);
+                    if (input && preview) {
+                        preview.style.backgroundColor = input.value;
+                    }
+                });
+            }
+
+            updateStylePreview() {
+                const preview = document.getElementById('style-preview-hotspot');
+                if (!preview) return;
+
+                const styles = this.getCurrentStyles();
+
+                preview.style.width = styles.hotspotSize + 'px';
+                preview.style.height = styles.hotspotSize + 'px';
+                preview.style.backgroundColor = styles.hotspotBg;
+                preview.style.borderColor = styles.hotspotColor;
+                preview.style.borderWidth = styles.borderWidth + 'px';
+
+                const content = preview.querySelector('.hotspot-content');
+                if (content) {
+                    content.style.color = styles.hotspotColor;
+                    content.textContent = styles.hotspotDisplay === 'numbers' ? '1' : '';
+                }
+
+                // Clear classes and reapply
+                preview.className = 'hotspot';
+                if (styles.hotspotAnimation !== 'none' && styles.hotspotAnimation !== 'pulse') {
+                    preview.classList.add(`anim-${styles.hotspotAnimation}`);
+                }
+            }
+
+            getCurrentStyles() {
+                const getImageWidth = () => {
+                    const widthSelect = document.getElementById('image-width')?.value;
+                    if (widthSelect === 'custom') {
+                        return document.getElementById('custom-width')?.value || '100%';
+                    }
+                    return widthSelect || '100%';
+                };
+
+                const getImageHeight = () => {
+                    const heightSelect = document.getElementById('image-height')?.value;
+                    if (heightSelect === 'custom') {
+                        return document.getElementById('custom-height')?.value || 'auto';
+                    }
+                    return heightSelect || 'auto';
+                };
+
+                return {
+                    hotspotDisplay: document.getElementById('hotspot-display')?.value || 'none',
+                    hotspotAnimation: document.getElementById('hotspot-animation')?.value || 'pulse',
+                    hoverAnimation: document.getElementById('hover-animation')?.value || 'scale',
+                    hotspotSize: parseInt(document.getElementById('hotspot-size')?.value) || 32,
+                    hotspotColor: document.getElementById('hotspot-color')?.value || '#B32017',
+                    hotspotBg: document.getElementById('hotspot-bg')?.value || '#FFFFFF',
+                    borderWidth: parseInt(document.getElementById('border-width')?.value) || 2,
+                    borderRadius: '50%',
+                    shadowStyle: 'default',
+                    popupBg: document.getElementById('popup-bg')?.value || '#FFFFFF',
+                    titleColor: document.getElementById('title-color')?.value || '#332A2A',
+                    textColor: document.getElementById('text-color')?.value || '#332A2A',
+                    priceColor: document.getElementById('price-color')?.value || '#B32017',
+                    buttonBg: document.getElementById('button-bg')?.value || '#B32017',
+                    buttonTextColor: '#FFFFFF',
+                    fontFamily: document.getElementById('font-family')?.value || 'Lato',
+                    imageWidth: getImageWidth(),
+                    imageHeight: getImageHeight()
+                };
+            }
+
+            applyStyles() {
+                this.styles = this.getCurrentStyles();
+                this.renderHotspots();
+                this.showMessage('Styles applied successfully.', 'success');
+                this.autoSave();
+            }
+
+            resetStyles() {
+                const defaults = {
+
+                    'hotspot-display': 'none',
+                    'hotspot-animation': 'pulse',
+                    'hover-animation': 'scale',
+                    'hotspot-size': '32',
+                    'hotspot-color': '#B32017',
+                    'hotspot-color-text': '#B32017',
+                    'hotspot-bg': '#FFFFFF',
+                    'hotspot-bg-text': '#FFFFFF',
+                    'border-width': '2',
+                    'popup-bg': '#ffffff',
+                    'popup-bg-text': '#ffffff',
+                    'title-color': '#332A2A',
+                    'title-color-text': '#332A2A',
+                    'text-color': '#332A2A',
+                    'text-color-text': '#332A2A',
+                    'price-color': '#B32017',
+                    'price-color-text': '#B32017',
+                    'button-bg': '#B32017',
+                    'button-bg-text': '#B32017',
+                    'font-family': 'Lato',
+                    'image-width': '100%',
+                    'image-height': 'auto'
+                };
+
+                Object.entries(defaults).forEach(([id, value]) => {
+                    const element = document.getElementById(id);
+                    if (element) element.value = value;
+                });
+
+                this.updateColorPreviews();
+                this.updateRangeValues();
+                this.updateStylePreview();
+                this.applyStyles();
+                this.showMessage('Styles reset to defaults.', 'success');
+            }
+
+            setupTabSwitching() {
+                const tabs = document.querySelectorAll('.tab-button');
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', (e) => {
+                        const targetTab = e.target.dataset.tab;
+                        this.switchTab(targetTab);
+                    });
+                });
+            }
+
+            switchTab(tabName) {
+                document.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(`${tabName}-tab`).classList.add('active');
+
+                if (tabName === 'style') {
+                    setTimeout(() => {
+                        this.updateStylePreview();
+                        this.updateColorPreviews();
+                    }, 100);
+                } else if (tabName === 'data') {
+                    this.updateStorageInfo();
+                }
+            }
+
+            handleFileSelect(event) {
+                const file = event.target.files[0];
+                if (file) this.loadImage(file);
+            }
+
+            handleFileDrop(event) {
+                const files = event.dataTransfer.files;
+                if (files.length > 0) this.loadImage(files[0]);
+            }
+
+            loadImage(file) {
+                if (!file.type.startsWith('image/')) {
+                    this.showMessage('Please upload an image file', 'error');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.imageUrl = e.target.result;
+                    this.displayImage();
+                    this.showMessage('Image uploaded successfully!', 'success');
+                    this.autoSave();
+                };
+                reader.readAsDataURL(file);
+            }
+
+            displayImage() {
+                const uploadArea = document.getElementById('upload-area');
+                const imageWrapper = document.getElementById('image-wrapper');
+                const imageContainer = document.getElementById('image-container');
+
+                uploadArea.style.display = 'none';
+                imageWrapper.style.display = 'block';
+
+                imageContainer.innerHTML = '';
+
+                const img = document.createElement('img');
+                img.src = this.imageUrl;
+                img.onload = () => {
+                    this.renderHotspots();
+                };
+
+                imageContainer.appendChild(img);
+
+                // Add click handler for creating hotspots
+                if (!this._hotspotClickBound) {
+                    this._hotspotClickBound = (e) => this.handleImageClick(e, this.isTouchDevice);
+                    imageContainer.addEventListener(
+                        this.isTouchDevice ? 'touchstart' : 'click',
+                        this._hotspotClickBound
+                    );
+                }
+            }
+
+            handleImageClick(e, isTouch) {
+                if (this.previewMode || this.isDragging) return;
+
+                const imageContainer = document.getElementById('image-container');
+                const img = imageContainer.querySelector('img');
+
+                const target = isTouch ? e.touches[0].target : e.target;
+                if (target !== img) return;
+
+                const rect = img.getBoundingClientRect();
+                const clientX = isTouch ? e.touches[0].clientX : e.clientX;
+                const clientY = isTouch ? e.touches[0].clientY : e.clientY;
+
+                const x = ((clientX - rect.left) / rect.width) * 100;
+                const y = ((clientY - rect.top) / rect.height) * 100;
+
+                if (x >= 0 && x <= 100 && y >= 0 && y <= 100) {
+                    this.addHotspot(x, y);
+                }
+            }
+
+            renderHotspots() {
+                const imageContainer = document.getElementById('image-container');
+
+                // Remove existing hotspots and popups
+                imageContainer.querySelectorAll('.hotspot, .popup').forEach(el => el.remove());
+
+                this.hotspots.forEach((hotspot, index) => {
+                    this.createHotspotElement(hotspot, index);
+                    this.createPopupElement(hotspot, index);
+                });
+            }
+
+            createHotspotElement(hotspot, index) {
+                const imageContainer = document.getElementById('image-container');
+
+                const hotspotEl = document.createElement('div');
+                hotspotEl.className = 'hotspot';
+                hotspotEl.dataset.index = index;
+                hotspotEl.style.left = hotspot.x + '%';
+                hotspotEl.style.top = hotspot.y + '%';
+
+                // Apply styles
+                hotspotEl.style.width = this.styles.hotspotSize + 'px';
+                hotspotEl.style.height = this.styles.hotspotSize + 'px';
+                hotspotEl.style.backgroundColor = this.styles.hotspotBg;
+                hotspotEl.style.borderColor = this.styles.hotspotColor;
+                hotspotEl.style.borderWidth = this.styles.borderWidth + 'px';
+
+                if (this.styles.hotspotAnimation !== 'none' && this.styles.hotspotAnimation !== 'pulse') {
+                    hotspotEl.classList.add(`anim-${this.styles.hotspotAnimation}`);
+                }
+
+                if (index === this.currentHotspotIndex) {
+                    hotspotEl.classList.add('active');
+                }
+
+                const displayContent = this.styles.hotspotDisplay === 'numbers' ? (index + 1) : '';
+                hotspotEl.innerHTML = `<span class="hotspot-content" style="color: ${this.styles.hotspotColor}">${displayContent}</span>`;
+
+                // --- Event listeners ---
+                if (!this.previewMode) {
+                    // --- Touch devices ---
+                    if (this.isTouchDevice) {
+                        let touchTimer;
+
+                        hotspotEl.addEventListener('touchstart', (e) => {
+                            e.stopPropagation();
+                            touchTimer = setTimeout(() => {
+                                this.startDragging(e, index);
+                            }, 300); // long press to drag
+                        });
+
+                        hotspotEl.addEventListener('touchmove', (e) => {
+                            if (touchTimer) {
+                                clearTimeout(touchTimer);
+                                touchTimer = null;
+                            }
+                            this.handleTouchMove(e);
+                        });
+
+                        hotspotEl.addEventListener('touchend', (e) => {
+                            e.stopPropagation();
+                            if (touchTimer) {
+                                clearTimeout(touchTimer);
+                                touchTimer = null;
+                                if (!this.isDragging) this.selectHotspot(index);
+                            }
+                            this.endDragOrSelect();
+                        });
+
+                    } else {
+                        // --- Mouse devices ---
+                        hotspotEl.addEventListener('mousedown', (e) => {
+                            e.stopPropagation();
+                            this.startDragging(e, index);
+                        });
+
+                        hotspotEl.addEventListener('mousemove', (e) => {
+                            if (this.isDragging) this.handleMove(e.clientX, e.clientY);
+                        });
+
+                        hotspotEl.addEventListener('mouseup', (e) => {
+                            e.stopPropagation();
+                            if (!this.isDragging) this.selectHotspot(index);
+                            this.endDragOrSelect();
+                        });
+                    }
+                } else {
+                    // --- Preview mode ---
+                    if (this.isTouchDevice) {
+                        hotspotEl.addEventListener('touchstart', (e) => e.stopPropagation());
+                        hotspotEl.addEventListener('touchend', (e) => {
+                            e.stopPropagation();
+                            this.togglePopup(index);
+                        });
+                    } else {
+                        hotspotEl.addEventListener('mouseenter', () => setTimeout(() => this.showPopup(index), 100));
+                        hotspotEl.addEventListener('mouseleave', () => setTimeout(() => this.hidePopup(index), 200));
+                    }
+                }
+
+                imageContainer.appendChild(hotspotEl);
+            }
+
+
+            createPopupElement(hotspot, index) {
+                const imageContainer = document.getElementById('image-container');
+
+                const popup = document.createElement('div');
+                popup.className = 'popup';
+                popup.dataset.index = index;
+
+                popup.style.backgroundColor = this.styles.popupBg;
+
+                // Position popup (will be overridden on mobile)
+                this.positionPopup(popup, hotspot.x, hotspot.y);
+
+                let popupHTML = `
+                    <button class="popup-close" onclick="app.hidePopup(${index})"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none"><g><path fill-rule="evenodd" clip-rule="evenodd" d="M9.51538 9.08559C9.10117 9.08559 8.76538 9.42137 8.76538 9.83559C8.76538 10.2498 9.10117 10.5856 9.51538 10.5856H9.75219L10.5112 11.391L11.4922 12.4321L12.9696 14L11.4922 15.5678L10.5112 16.6089L9.75219 17.4144H9.51538C9.10117 17.4144 8.76538 17.7502 8.76538 18.1644C8.76538 18.5786 9.10117 18.9144 9.51538 18.9144H10.076C10.2826 18.9144 10.4801 18.8291 10.6218 18.6788L11.6029 17.6376L12.5839 16.5965L14.0001 15.0936L15.4164 16.5965L16.3974 17.6376L16.4033 17.6439C16.2732 17.7788 16.1932 17.9622 16.1932 18.1644C16.1932 18.5786 16.529 18.9144 16.9432 18.9144H17.9243H18.4849C18.8991 18.9144 19.2349 18.5786 19.2349 18.1644C19.2349 17.7502 18.8991 17.4144 18.4849 17.4144H18.2481L17.4891 16.6089L16.508 15.5678L15.0306 14L16.508 12.4321L17.4891 11.391L18.2481 10.5856H18.4849C18.8991 10.5856 19.2349 10.2498 19.2349 9.83559C19.2349 9.42137 18.8991 9.08559 18.4849 9.08559H17.9243C17.7176 9.08559 17.5202 9.17084 17.3784 9.32124L16.3974 10.3623L15.4164 11.4034L14.0001 12.9064L12.5839 11.4034L11.6029 10.3623L11.597 10.3561C11.727 10.2212 11.807 10.0377 11.807 9.83559C11.807 9.42137 11.4712 9.08559 11.057 9.08559H10.076H9.51538Z" fill="#332A2A"/></g><defs><clipPath id="clip0_1218_14026"><rect width="28" height="28" fill="white"/></clipPath></defs></svg></button>
+                `;
+
+                if (hotspot.image) {
+                    popupHTML += `<img src="${hotspot.image}" alt="${hotspot.title}" class="popup-image" onerror="this.style.display='none'">`;
+                }
+
+                popupHTML += `
+                    <div class="popup-title" style="color: ${this.styles.titleColor}">${this.escapeHtml(hotspot.title)}</div>
+                    <div class="popup-text" style="color: ${this.styles.textColor}">${this.escapeHtml(hotspot.description)}</div>
+                    ${hotspot.price ? `<div class="popup-price" style="color: ${this.styles.priceColor}">${this.escapeHtml(hotspot.price)}</div>` : ''}
+                `;
+
+                if (hotspot.showCta && hotspot.buttonLink) {
+                    const sku = hotspot.buttonLink;
+                    const url = `https://www.homemakers.com/${sku}.html`;
+                    popupHTML += `<a href="${url}" class="popup-button" style="background: ${this.styles.buttonBg};" target="_blank" rel="noopener">${this.escapeHtml(hotspot.buttonText)}</a>`;
+                }
+
+                popup.innerHTML = popupHTML;
+                imageContainer.appendChild(popup);
+            }
+
+            positionPopup(popup, x, y) {
+                if (window.innerWidth < 768) return; // Mobile handled by CSS
+
+                // --- Horizontal centering ---
+                popup.style.left = x + '%';
+                popup.style.right = 'auto';
+                popup.style.transform = 'translateX(-50%)';
+
+                // --- Vertical placement ---
+                if (y > 60) {
+                    // Place above hotspot
+                    popup.style.bottom = (100 - y + 8) + '%';
+                    popup.style.top = 'auto';
+                } else {
+                    // Place below hotspot
+                    popup.style.top = (y + 8) + '%';
+                    popup.style.bottom = 'auto';
+                }
+            }
+
+            // --- Start drag ---
+            startDragging(e, index) {
+                if (this.previewMode) return;
+
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+                const hotspot = this.hotspots[index];
+                const hotspotEl = document.querySelector(`[data-index="${index}"]`);
+                const img = document.getElementById('image-container').querySelector('img');
+                const rect = img.getBoundingClientRect();
+
+                // Calculate pointer offset relative to hotspot
+                const hotspotLeft = (hotspot.x / 100) * rect.width;
+                const hotspotTop = (hotspot.y / 100) * rect.height;
+                const offsetX = clientX - rect.left - hotspotLeft;
+                const offsetY = clientY - rect.top - hotspotTop;
+
+                this.dragData = {
+                    startX: clientX,
+                    startY: clientY,
+                    initialX: hotspot.x,
+                    initialY: hotspot.y,
+                    rect: rect,
+                    index: index,
+                    hasDragged: false,
+                    offsetX: offsetX,
+                    offsetY: offsetY
+                };
+            }
+
+            // --- Move handler ---
+            handleMove(clientX, clientY) {
+                if (!this.dragData) return;
+
+                const deltaX = Math.abs(clientX - this.dragData.startX);
+                const deltaY = Math.abs(clientY - this.dragData.startY);
+
+                if (!this.dragData.hasDragged && (deltaX > 3 || deltaY > 3)) {
+                    this.isDragging = true;
+                    this.currentHotspotIndex = this.dragData.index;
+                    this.dragData.hasDragged = true;
+
+                    const hotspotEl = document.querySelector(`[data-index="${this.currentHotspotIndex}"]`);
+                    hotspotEl.classList.add('dragging');
+                    document.getElementById('drag-overlay').style.display = 'block';
+
+                    // Select hotspot immediately
+                    this.selectHotspot(this.currentHotspotIndex);
+                }
+
+                if (this.dragData.hasDragged) {
+                    const container = document.getElementById('image-container'); // hotspot parent
+                    const containerRect = container.getBoundingClientRect();
+
+                    // Compute position relative to container, applying pointer offset
+                    let newX = ((clientX - containerRect.left - this.dragData.offsetX) / containerRect.width) * 100;
+                    let newY = ((clientY - containerRect.top - this.dragData.offsetY) / containerRect.height) * 100;
+
+                    // Clamp to 0–100%
+                    newX = Math.max(0, Math.min(100, newX));
+                    newY = Math.max(0, Math.min(100, newY));
+
+                    const hotspotEl = document.querySelector(`[data-index="${this.currentHotspotIndex}"]`);
+                    hotspotEl.style.left = newX + '%';
+                    hotspotEl.style.top = newY + '%';
+
+                    const popup = document.querySelector(`.popup[data-index="${this.currentHotspotIndex}"]`);
+                    if (popup) this.positionPopup(popup, newX, newY);
+                }
+
+            }
+
+            // --- Mouse / touch handlers ---
+            handleMouseMove(e) { this.handleMove(e.clientX, e.clientY); }
+            handleTouchMove(e) {
+                if (!this.dragData) return;
+                e.preventDefault();
+                const touch = e.touches[0];
+                this.handleMove(touch.clientX, touch.clientY);
+            }
+
+            // --- Mouse / touch up ---
+            handleMouseUp(e) { this.endDragOrSelect(); }
+            handleTouchEnd(e) { this.endDragOrSelect(); }
+
+            // --- Decide if click or drag ---
+            endDragOrSelect() {
+                if (!this.dragData) return;
+
+                const index = this.dragData.index;
+                const hotspotEl = document.querySelector(`[data-index="${index}"]`);
+
+                if (!this.dragData.hasDragged) {
+                    if (this.currentHotspotIndex >= 0 && this.hotspots[this.currentHotspotIndex]) {
+                        this.selectHotspot(this.currentHotspotIndex);
+                    }
+                } else {
+                    const newX = parseFloat(hotspotEl.style.left);
+                    const newY = parseFloat(hotspotEl.style.top);
+
+                    this.hotspots[index].x = newX;
+                    this.hotspots[index].y = newY;
+
+                    hotspotEl.classList.remove('dragging');
+                    document.getElementById('drag-overlay').style.display = 'none';
+
+                    this.showMessage('Hotspot repositioned.', 'success');
+                    this.autoSave();
+                }
+
+                this.dragData = null;
+                this.isDragging = false;
+            }
+
+            addHotspot(x, y) {
+                const hotspot = {
+                    id: Date.now(),
+                    x: x,
+                    y: y,
+                    title: `Product ${this.hotspots.length + 1}`,
+                    description: '',
+                    price: '',
+                    image: '',
+                    showCta: true,
+                    buttonText: 'Shop Now',
+                    buttonLink: ''
+                };
+
+                this.hotspots.push(hotspot);
+                this.currentHotspotIndex = this.hotspots.length - 1;
+
+                this.renderHotspots();
+                this.loadHotspotForm();
+                this.updateHotspotList();
+                this.updateHotspotHeading(this.currentHotspotIndex);
+                this.showMessage('Hotspot added, fill in the details.', 'success');
+                this.switchTab('edit');
+                this.autoSave();
+            }
+
+            // Hotspot management
+            selectHotspot(index) {
+                this.currentHotspotIndex = index;
+                this.renderHotspots();
+                this.loadHotspotForm();
+                this.updateHotspotList();
+                this.updateHotspotHeading(this.currentHotspotIndex);
+                this.switchTab('edit');
+            }
+
+            updateHotspotList() {
+                const list = document.getElementById('hotspot-list');
+
+                if (this.hotspots.length === 0) {
+                    list.innerHTML = '<p style="color: var(--black-secondary); text-align: center; padding: 2rem;">No hotspots added yet</p>';
+                    return;
+                }
+
+                list.innerHTML = this.hotspots.map((hotspot, index) => `
+                    <div class="hotspot-item ${index === this.currentHotspotIndex ? 'active' : ''}" 
+                         onclick="app.selectHotspot(${index})">
+                        <div>
+                            <strong>${index + 1}. ${this.escapeHtml(hotspot.title)}</strong>
+                            <br><small style="color: var(--black-secondary);">${this.escapeHtml(hotspot.price)}${hotspot.showCta === false ? ' • No CTA' : ''}</small>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            updateHotspotHeading(index = this.currentHotspotIndex) {
+                const heading = document.querySelector('#hotspot-details-heading');
+                if (!heading || !this.hotspots[index]) return;
+
+                const hotspot = this.hotspots[index];
+                const name = hotspot.title?.trim() || `Product ${index + 1}`;
+                heading.textContent = `Editing Hotspot: ${name}`;
+            }
+
+            loadHotspotForm() {
+                // DEBUGGING console.log('Hotspots length:', this.hotspots.length, 'Index:', this.currentHotspotIndex, 'Hotspot:', this.hotspots[this.currentHotspotIndex]);
+                if (this.currentHotspotIndex < 0) return;
+
+                const hotspot = this.hotspots[this.currentHotspotIndex];
+                const form = document.getElementById('hotspot-form');
+
+                document.getElementById('product-title').value = hotspot.title;
+                document.getElementById('product-description').value = hotspot.description;
+                document.getElementById('product-price').value = hotspot.price;
+                document.getElementById('product-image').value = hotspot.image;
+                document.getElementById('show-cta').checked = hotspot.showCta !== false;
+                document.getElementById('button-text').value = hotspot.buttonText;
+                document.getElementById('button-link').value = hotspot.buttonLink;
+
+                document.getElementById('cta-fields').style.display = hotspot.showCta !== false ? 'block' : 'none';
+                form.style.display = 'block';
+            }
+
+            saveCurrentHotspot() {
+                if (this.currentHotspotIndex < 0) return;
+
+                const hotspot = this.hotspots[this.currentHotspotIndex];
+
+                hotspot.title = document.getElementById('product-title').value || '';
+                hotspot.description = document.getElementById('product-description').value || '';
+                hotspot.price = document.getElementById('product-price').value || '';
+                hotspot.image = document.getElementById('product-image').value || '';
+                hotspot.showCta = document.getElementById('show-cta').checked;
+                hotspot.buttonText = document.getElementById('button-text').value || 'Shop Now';
+                hotspot.buttonLink = document.getElementById('button-link').value || '';
+
+                this.renderHotspots();
+                this.updateHotspotList();
+                this.updateHotspotHeading(this.currentHotspotIndex);
+                this.showMessage('Hotspot saved.', 'success');
+                this.autoSave();
+            }
+
+            deleteCurrentHotspot() {
+                if (this.currentHotspotIndex < 0) return;
+
+                if (confirm('Are you sure you want to delete this hotspot?')) {
+                    this.hotspots.splice(this.currentHotspotIndex, 1);
+                    this.currentHotspotIndex = -1;
+
+                    document.getElementById('hotspot-form').style.display = 'none';
+                    this.renderHotspots();
+                    this.updateHotspotList();
+                    this.showMessage('Hotspot deleted.', 'success');
+                    this.autoSave();
+                }
+            }
+
+            clearAllHotspots() {
+                if (this.hotspots.length === 0) {
+                    this.showMessage('No hotspots to clear', 'error');
+                    return;
+                }
+
+                if (confirm('Are you sure you want to clear all hotspots?')) {
+                    this.hotspots = [];
+                    this.currentHotspotIndex = -1;
+
+                    document.getElementById('hotspot-form').style.display = 'none';
+                    this.renderHotspots();
+                    this.updateHotspotList();
+                    this.showMessage('All hotspots cleared.', 'success');
+                    this.autoSave();
+                }
+            }
+
+            // Preview mode
+            togglePreviewMode() {
+                this.previewMode = !this.previewMode;
+                const toggle = document.getElementById('preview-toggle');
+                toggle.classList.toggle('active');
+
+                // Hide all popups when switching modes
+                document.querySelectorAll('.popup').forEach(popup => {
+                    popup.classList.remove('active');
+                });
+
+                this.renderHotspots();
+
+                if (this.previewMode) {
+                    this.showMessage(this.isTouchDevice ? 'Preview mode: tap hotspots to view details.' : 'Preview mode: hover over hotspots to view details.', 'success');
+                } else {
+                    this.showMessage('Edit mode: click to select, drag to move hotspots.', 'success');
+                }
+            }
+
+            togglePopup(index) {
+                const popup = document.querySelector(`.popup[data-index="${index}"]`);
+                if (!popup) return;
+
+                const isActive = popup.classList.contains('active');
+
+                // Hide all popups first
+                document.querySelectorAll('.popup').forEach(p => {
+                    p.classList.remove('active');
+                });
+
+                // Toggle this popup with a small delay to prevent instant close
+                if (!isActive) {
+                    setTimeout(() => {
+                        popup.classList.add('active');
+                    }, 50);
+                }
+            }
+
+            showPopup(index) {
+                const popup = document.querySelector(`.popup[data-index="${index}"]`);
+                if (popup) popup.classList.add('active');
+            }
+
+            hidePopup(index) {
+                const popup = document.querySelector(`.popup[data-index="${index}"]`);
+                if (popup && !popup.matches(':hover')) {
+                    popup.classList.remove('active');
+                }
+            }
+
+            // Export functionality
+            exportHTML() {
+                if (!this.imageUrl || this.hotspots.length === 0) {
+                    this.showMessage('Please add an image and at least one hotspot.', 'error');
+                    return;
+                }
+
+                // Get the export image URL
+                const exportUrl = document.getElementById('export-image-url').value.trim();
+                if (!exportUrl) {
+                    this.showMessage('Please enter the URL where your image will be hosted.', 'warning');
+                    document.getElementById('export-image-url').focus();
+                    return;
+                }
+
+                // Save the export URL for future use
+                this.exportImageUrl = exportUrl;
+                this.autoSave();
+
+                const html = this.generateHTML(exportUrl);
+                const output = document.getElementById('code-output');
+                const copyBtn = document.getElementById('copy-btn');
+
+                output.textContent = html;
+                output.style.display = 'block';
+                copyBtn.style.display = 'inline-block';
+
+                this.showMessage('HTML generated.', 'success');
+            }
+
+            generateHTML(imageUrl) {
+                const getFontFamily = () => {
+                    switch (this.styles.fontFamily) {
+                        case 'Lato': return "'Lato', sans-serif";
+                        case 'Verdana': return "'Verdana', sans-serif";
+                        default: return "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
+                    }
+                };
+
+                const fontFamily = getFontFamily();
+                const fontLink = this.styles.fontFamily !== 'system' ? `<link href="https://fonts.googleapis.com/css2?family=${this.styles.fontFamily}:wght@400;500;600&display=swap" rel="stylesheet">` : '';
+
+                const getAnimationCSS = () => {
+                    let css = '';
+                    if (this.styles.hotspotAnimation === 'pulse') {
+                        css = 'animation: si-pulse 2s infinite;';
+                    } else if (this.styles.hotspotAnimation !== 'none') {
+                        css = `animation: si-${this.styles.hotspotAnimation} 2s infinite;`;
+                    }
+                    return css;
+                };
+
+                const getAnimationKeyframes = () => {
+                    let keyframes = `
+        @keyframes si-pulse {
+            0% { box-shadow: 0 0 0 0 ${this.hexToRgba(this.styles.hotspotColor, 0.6)}; }
+            70% { box-shadow: 0 0 0 12px ${this.hexToRgba(this.styles.hotspotColor, 0)}; }
+            100% { box-shadow: 0 0 0 0 ${this.hexToRgba(this.styles.hotspotColor, 0)}; }
+        }`;
+
+                    if (this.styles.hotspotAnimation === 'bounce') {
+                        keyframes += `
+        @keyframes si-bounce {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }`;
+                    } else if (this.styles.hotspotAnimation === 'shake') {
+                        keyframes += `
+        @keyframes si-shake {
+            0%, 100% { transform: translate(-50%, -50%); }
+            25% { transform: translate(-48%, -50%); }
+            75% { transform: translate(-52%, -50%); }
+        }`;
+                    } else if (this.styles.hotspotAnimation === 'glow') {
+                        keyframes += `
+        @keyframes si-glow {
+            0%, 100% { box-shadow: 0 0 5px ${this.hexToRgba(this.styles.hotspotColor, 0.5)}; }
+            50% { box-shadow: 0 0 20px ${this.hexToRgba(this.styles.hotspotColor, 0.8)}; }
+        }`;
+                    } else if (this.styles.hotspotAnimation === 'rotate') {
+                        keyframes += `
+        @keyframes si-rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }`;
+                    } else if (this.styles.hotspotAnimation === 'scale') {
+                        keyframes += `
+        @keyframes si-scale {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }`;
+                    }
+
+                    return keyframes;
+                };
+
+                const hotspotsHTML = this.hotspots.map((hotspot, index) => {
+                    const displayContent = this.styles.hotspotDisplay === 'numbers' ? (index + 1) : '';
+                    return `
+        <div class="si-hotspot" data-index="${index}" style="left: ${hotspot.x}%; top: ${hotspot.y}%;">
+            <span class="si-content">${displayContent}</span>
+        </div>
+        <div class="si-popup" data-hotspot="${index}">
+            <button class="si-close" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none"><g><path fill-rule="evenodd" clip-rule="evenodd" d="M9.51538 9.08559C9.10117 9.08559 8.76538 9.42137 8.76538 9.83559C8.76538 10.2498 9.10117 10.5856 9.51538 10.5856H9.75219L10.5112 11.391L11.4922 12.4321L12.9696 14L11.4922 15.5678L10.5112 16.6089L9.75219 17.4144H9.51538C9.10117 17.4144 8.76538 17.7502 8.76538 18.1644C8.76538 18.5786 9.10117 18.9144 9.51538 18.9144H10.076C10.2826 18.9144 10.4801 18.8291 10.6218 18.6788L11.6029 17.6376L12.5839 16.5965L14.0001 15.0936L15.4164 16.5965L16.3974 17.6376L16.4033 17.6439C16.2732 17.7788 16.1932 17.9622 16.1932 18.1644C16.1932 18.5786 16.529 18.9144 16.9432 18.9144H17.9243H18.4849C18.8991 18.9144 19.2349 18.5786 19.2349 18.1644C19.2349 17.7502 18.8991 17.4144 18.4849 17.4144H18.2481L17.4891 16.6089L16.508 15.5678L15.0306 14L16.508 12.4321L17.4891 11.391L18.2481 10.5856H18.4849C18.8991 10.5856 19.2349 10.2498 19.2349 9.83559C19.2349 9.42137 18.8991 9.08559 18.4849 9.08559H17.9243C17.7176 9.08559 17.5202 9.17084 17.3784 9.32124L16.3974 10.3623L15.4164 11.4034L14.0001 12.9064L12.5839 11.4034L11.6029 10.3623L11.597 10.3561C11.727 10.2212 11.807 10.0377 11.807 9.83559C11.807 9.42137 11.4712 9.08559 11.057 9.08559H10.076H9.51538Z" fill="#332A2A"/></g><defs><clipPath id="clip0_1218_14026"><rect width="28" height="28" fill="white"/></clipPath></defs></svg></button>
+            ${hotspot.image ? `<img src="${hotspot.image}" alt="${this.escapeHtml(hotspot.title)}" class="si-image" onerror="this.style.display='none'">` : ''}
+            <div class="si-title">${this.escapeHtml(hotspot.title)}</div>
+            ${hotspot.description ? `<div class="si-text">${this.escapeHtml(hotspot.description)}</div>` : ''}
+            ${hotspot.price ? `<div class="si-price">${this.escapeHtml(hotspot.price)}</div>` : ''}
+            ${hotspot.showCta && hotspot.buttonLink ? (() => {
+                            const url = `https://www.homemakers.com/${hotspot.buttonLink}.html`;
+                            return `<a href="${url}" class="si-button" target="_blank" rel="noopener">${this.escapeHtml(hotspot.buttonText)}</a>`;
+                        })() : ''}
+
+        </div>`;
+                }).join('');
+
+                return `<!-- Shoppable Image - Enterprise Edition -->
+${fontLink}
+<div class="shoppable-image-wrapper" style="position: relative; display: inline-block; max-width: 100%;">
+    <style>
+        .shoppable-image-wrapper {
+            font-family: ${fontFamily};
+            line-height: 1.6;
+            width: 100%;
+        }
+        .shoppable-image-container {
+            position: relative;
+            display: block;
+            width: 100%;
+            overflow: visible;
+        }
+        .shoppable-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            vertical-align: bottom;
+        }
+        .si-hotspot {
+            position: absolute;
+            width: ${this.styles.hotspotSize}px;
+            height: ${this.styles.hotspotSize}px;
+            background: ${this.styles.hotspotBg};
+            border: ${this.styles.borderWidth}px solid ${this.styles.hotspotColor};
+            border-radius: 50%;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            transition: all cubic-bezier(0.18, 0.58, 0.28, 0.98) .4s;
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+            ${getAnimationCSS()}
+        }
+        ${getAnimationKeyframes()}
+        @media (hover: hover) {
+            .si-hotspot:hover {
+                transform: translate(-50%, -50%) scale(1.15);
+                background: ${this.styles.hotspotColor};
+                z-index: 4;
+            }
+            .si-hotspot:hover .si-content {
+                color: ${this.styles.hotspotBg};
+            }
+        }
+        .si-content {
+            color: ${this.styles.hotspotColor};
+            font-weight: 600;
+            font-size: 14px;
+            user-select: none;
+            pointer-events: none;
+        }
+        .si-popup {
+            position: absolute;
+            background: ${this.styles.popupBg};
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(51, 42, 42, 0.2);
+            padding: 20px;
+            width: 300px;
+            max-width: 90vw;
+            z-index: 5;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: cubic-bezier(0.18, 0.58, 0.28, 0.98) .4s;
+            transition-property: opacity, visibility;
+            font-family: ${fontFamily};
+            box-sizing: border-box;
+        }
+        
+        /* Dynamic positioning for each popup - responsive to image size */
+${this.hotspots.map((h, i) => {
+                    let styles = '';
+
+                    // --- Vertical positioning: above or below ---
+                    if (h.y > 60) {
+                        // Place above
+                        styles += `bottom: calc(${100 - h.y}% + 10px); top: auto;`;
+                    } else {
+                        // Place below
+                        styles += `top: calc(${h.y}% + 10px); bottom: auto;`;
+                    }
+
+                    // --- Horizontal centering ---
+                    styles += `
+        left: ${h.x}%;
+        right: auto;
+        transform: translateX(-50%);
+    `;
+
+                    return `.si-popup[data-hotspot="${i}"] { ${styles} }`;
+                }).join('\n        ')}
+
+        
+        .si-popup.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            z-index: 5;
+        }
+        .si-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 32px;
+            height: 32px;
+            background: rgba(51, 42, 42, 0.1);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            color: #332A2A;
+            fill: #332A2A;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all cubic-bezier(0.18, 0.58, 0.28, 0.98) .4s;
+            line-height: 1;
+            padding: 0;
+        }
+        .si-close svg {
+            color: #332A2A;
+            fill: #332A2A;
+        }
+        .si-close:hover {
+            background: rgba(51, 42, 42, 0.2);
+            color: #B32017;
+            fill: #B32017;
+        }
+        .si-close:hover svg {
+            color: #B32017;
+            fill: #B32017;
+        }
+        .si-image {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            background: #FFFEFC;
+        }
+        .si-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            color: ${this.styles.titleColor};
+            line-height: 1.3;
+            font-family: ${fontFamily};
+        }
+        .si-text {
+            color: ${this.styles.textColor};
+            margin: 0 0 16px 0;
+            line-height: 1.5;
+            font-size: 15px;
+            font-family: ${fontFamily};
+        }
+        .si-price {
+            font-size: 24px;
+            font-weight: 600;
+            color: ${this.styles.priceColor};
+            margin: 0 0 16px 0;
+            font-family: ${fontFamily};
+        }
+        .si-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 0 25px;
+            height: 48px;
+            background: ${this.styles.buttonBg};
+            color: #FFFFFF;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: cubic-bezier(0.18, 0.58, 0.28, 0.98) .4s;
+            transition-property: background-color, border-color;
+            font-family: ${fontFamily};
+            box-sizing: border-box;
+            margin: 0;
+        }
+        .si-button:hover {
+            background: ${this.darkenColor(this.styles.buttonBg, 10)};
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+            .shoppable-image-container {
+                position: relative;
+            }
+            
+            .si-popup {
+                position: absolute !important;
+                left: 50% !important;
+                top: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                bottom: auto !important;
+                right: auto !important;
+                width: min(90vw, 320px) !important;
+                max-height: 70vh !important;
+                overflow-y: auto !important;
+                z-index: 3 !important;
+            }
+            
+            .si-popup.active {
+                z-index: 5 !important;
+            }
+            
+            .si-hotspot {
+                width: 28px !important;
+                height: 28px !important;
+                z-index: 4 !important;
+            }
+            
+            .si-close {
+                width: 28px !important;
+                height: 28px !important;
+                font-size: 24px !important;
+            }
+        }
+        
+        /* Mobile centering overrides for each popup */
+        @media (max-width: 768px) {
+            ${this.hotspots.map((h, i) => {
+                    return `.si-popup[data-hotspot="${i}"] { position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; right: auto !important; bottom: auto !important; z-index: 5 !important; }`;
+                }).join('\n            ')}
+            ${this.hotspots.map((h, i) => {
+                    return `.si-popup[data-hotspot="${i}"].active { z-index: 5 !important; }`;
+                }).join('\n            ')}
+        }
+        
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .si-hotspot {
+                width: 28px;
+                height: 28px;
+            }
+            .si-close {
+                width: 28px;
+                height: 28px;
+            }
+        }
+    </style>
+    
+    <div class="shoppable-image-container">
+        <img src="${imageUrl}" alt="Shoppable Image">
+        ${hotspotsHTML}
+    </div>
+    
+    <script>
+        (function() {
+            const container = document.currentScript.parentElement.querySelector('.shoppable-image-container');
+            const hotspots = container.querySelectorAll('.si-hotspot');
+            const popups = container.querySelectorAll('.si-popup');
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            
+            function closeAllPopups() {
+                popups.forEach(p => p.classList.remove('active'));
+            }
+            
+            hotspots.forEach((hotspot, index) => {
+                const popup = popups[index];
+                if (!popup) return;
+                
+                if (isTouchDevice) {
+                    hotspot.addEventListener('touchstart', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    });
+                    
+                    hotspot.addEventListener('touchend', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const wasActive = popup.classList.contains('active');
+                        closeAllPopups();
+                        if (!wasActive) {
+                            popup.classList.add('active');
+                        }
+                    });
+                } else {
+                    let hoverTimeout;
+                    
+                    hotspot.addEventListener('mouseenter', function() {
+                        clearTimeout(hoverTimeout);
+                        closeAllPopups();
+                        hoverTimeout = setTimeout(() => {
+                            popup.classList.add('active');
+                        }, 100);
+                    });
+                    
+                    hotspot.addEventListener('mouseleave', function() {
+                        clearTimeout(hoverTimeout);
+                        hoverTimeout = setTimeout(() => {
+                            if (!popup.matches(':hover')) {
+                                popup.classList.remove('active');
+                            }
+                        }, 200);
+                    });
+                    
+                    popup.addEventListener('mouseleave', function() {
+                        popup.classList.remove('active');
+                    });
+                }
+                
+                const closeBtn = popup.querySelector('.si-close');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        popup.classList.remove('active');
+                    });
+                }
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.si-hotspot') && !e.target.closest('.si-popup')) {
+                    closeAllPopups();
+                }
+            });
+        })();
+    <\/script>
+</div>`;
+            }
+
+            // Utility functions
+            escapeHtml(text) {
+                if (!text) return '';
+                const map = {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                };
+                return String(text).replace(/[&<>"']/g, m => map[m]);
+            }
+
+            hexToRgba(hex, alpha) {
+                const r = parseInt(hex.slice(1, 3), 16);
+                const g = parseInt(hex.slice(3, 5), 16);
+                const b = parseInt(hex.slice(5, 7), 16);
+                return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+            }
+
+            darkenColor(hex, percent) {
+                const num = parseInt(hex.slice(1), 16);
+                const amt = Math.round(2.55 * percent);
+                const R = Math.max(0, Math.min(255, (num >> 16) - amt));
+                const G = Math.max(0, Math.min(255, (num >> 8 & 0x00FF) - amt));
+                const B = Math.max(0, Math.min(255, (num & 0x0000FF) - amt));
+                return '#' + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
+            }
+
+            copyToClipboard() {
+                const code = document.getElementById('code-output').textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    const btn = document.getElementById('copy-btn');
+                    const original = btn.textContent;
+                    btn.textContent = 'Copied';
+                    btn.style.background = '#2C6724';
+                    setTimeout(() => {
+                        btn.textContent = original;
+                        btn.style.background = '';
+                    }, 2000);
+                    this.showMessage('Code copied to clipboard.', 'success');
+                }).catch(() => {
+                    // Fallback for older browsers
+                    const textarea = document.createElement('textarea');
+                    textarea.value = code;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    try {
+                        document.execCommand('copy');
+                        this.showMessage('Code copied to clipboard.', 'success');
+                    } catch (err) {
+                        this.showMessage('Failed to copy. Please select and copy the code manually.', 'error');
+                    }
+                    document.body.removeChild(textarea);
+                });
+            }
+
+            showMessage(text, type) {
+                const message = document.getElementById('message');
+                message.textContent = text;
+                message.className = `message ${type}`;
+                message.classList.add('show');
+
+                setTimeout(() => {
+                    message.classList.remove('show');
+                }, 2500);
+            }
+        }
+
+        // Initialize the application
+        const app = new ShoppableImageCreator();
+
+        // Make app globally accessible for onclick handlers
+        window.app = app;
+    </script>
+</body>
+
+</html>
